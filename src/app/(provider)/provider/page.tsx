@@ -1,5 +1,5 @@
 import { Construction } from "lucide-react";
-import { requireRole } from "@/lib/auth";
+import { requirePageRole } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { AccountShell } from "@/components/shared/account-shell";
 import { OrderStatusBadge } from "@/components/shared/status-badge";
@@ -8,7 +8,7 @@ import { formatCentavos, formatDate } from "@/lib/format";
 export const dynamic = "force-dynamic";
 
 export default async function ProviderPage() {
-  const user = await requireRole("PROVIDER", "ADMIN");
+  const user = await requirePageRole(["PROVIDER", "ADMIN"], "/provider");
 
   const assigned = await prisma.order
     .findMany({

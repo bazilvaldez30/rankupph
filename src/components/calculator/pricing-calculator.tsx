@@ -141,7 +141,7 @@ export function PricingCalculator({
         setError(data?.error ?? "Could not create your order.");
         return;
       }
-      router.push(`/track-order?number=${data.order.orderNumber}`);
+      router.push(`/checkout/${data.order.orderNumber}`);
     } finally {
       setSubmitting(false);
     }

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, PackageOpen } from "lucide-react";
-import { requireRole } from "@/lib/auth";
+import { requirePageRole } from "@/lib/auth";
 import { getCustomerOrders } from "@/lib/account-queries";
 import { AccountShell } from "@/components/shared/account-shell";
 import { OrderStatusBadge } from "@/components/shared/status-badge";
@@ -10,7 +10,7 @@ import { formatCentavos, formatDate } from "@/lib/format";
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-  const user = await requireRole("CUSTOMER", "PROVIDER", "ADMIN");
+  const user = await requirePageRole(["CUSTOMER", "PROVIDER", "ADMIN"], "/dashboard");
   const orders = await getCustomerOrders(user.id);
 
   const active = orders.filter(
@@ -106,12 +106,21 @@ export default async function DashboardPage() {
                     <OrderStatusBadge status={o.status} />
                   </td>
                   <td className="px-5 py-4 text-right">
-                    <Link
-                      href={`/track-order?number=${o.orderNumber}`}
-                      className="text-gold hover:underline"
-                    >
-                      Track
-                    </Link>
+                    {o.status === "PENDING_PAYMENT" ? (
+                      <Link
+                        href={`/checkout/${o.orderNumber}`}
+                        className="font-medium text-gold hover:underline"
+                      >
+                        Pay now
+                      </Link>
+                    ) : (
+                      <Link
+                        href={`/track-order?number=${o.orderNumber}`}
+                        className="text-gold hover:underline"
+                      >
+                        Track
+                      </Link>
+                    )}
                   </td>
                 </tr>
               ))}

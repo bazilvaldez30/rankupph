@@ -31,11 +31,19 @@ export function ModifierToggles({
       {addons.map((m) => {
         const on = selected.includes(m.key);
         return (
-          <button
+          <div
             key={m.key}
-            type="button"
+            role="button"
+            tabIndex={0}
+            aria-pressed={on}
             onClick={() => onToggle(m.key)}
-            className={`flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left transition-colors ${
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onToggle(m.key);
+              }
+            }}
+            className={`flex w-full cursor-pointer items-center justify-between rounded-xl border px-4 py-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/40 ${
               on
                 ? "border-gold/40 bg-gold/[0.06]"
                 : "border-white/[0.07] bg-white/[0.02] hover:border-white/15"
@@ -50,8 +58,14 @@ export function ModifierToggles({
                 {m.description}
               </p>
             </div>
-            <Switch checked={on} onCheckedChange={() => onToggle(m.key)} />
-          </button>
+            {/* Visual only — the whole card is the control. */}
+            <Switch
+              checked={on}
+              tabIndex={-1}
+              aria-hidden
+              className="pointer-events-none"
+            />
+          </div>
         );
       })}
     </div>

@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { redirect } from "next/navigation";
 import { prisma } from "./prisma";
 import { authConfig } from "./auth.config";
 import { loginSchema } from "./validations/auth";
@@ -64,10 +65,28 @@ export async function requireUser() {
   return user;
 }
 
-/** Throws unless the signed-in user has one of the allowed roles. */
+/** Throws unless the signed-in user has one of the allowed roles. (API routes) */
 export async function requireRole(...roles: Role[]) {
   const user = await requireUser();
   if (!roles.includes(user.role)) throw new AuthError("FORBIDDEN");
+  return user;
+}
+
+function roleHome(role?: Role): string {
+  if (role === "ADMIN") return "/admin";
+  if (role === "PROVIDER") return "/provider";
+  return "/dashboard";
+}
+
+/**
+ * Page-level guard for server components: redirects (never throws) so a
+ * logged-out or wrong-role visitor lands somewhere sensible instead of a 500.
+ * Defense-in-depth behind middleware.
+ */
+export async function requirePageRole(roles: Role[], callbackPath: string) {
+  const user = await getCurrentUser();
+  if (!user) redirect(`/login?callbackUrl=${encodeURIComponent(callbackPath)}`);
+  if (!roles.includes(user.role)) redirect(roleHome(user.role));
   return user;
 }
 

@@ -13,6 +13,12 @@ const ROUTE_GUARDS: Array<{ prefix: string; roles: string[] }> = [
 
 const AUTH_PAGES = ["/login", "/register"];
 
+function roleHome(role?: string): string {
+  if (role === "ADMIN") return "/admin";
+  if (role === "PROVIDER") return "/provider";
+  return "/dashboard";
+}
+
 export default auth((req) => {
   const { nextUrl } = req;
   const session = req.auth;
@@ -21,15 +27,7 @@ export default auth((req) => {
 
   // Signed-in users shouldn't see login/register.
   if (AUTH_PAGES.some((p) => path.startsWith(p))) {
-    if (session) {
-      const dest =
-        role === "ADMIN"
-          ? "/admin"
-          : role === "PROVIDER"
-            ? "/provider"
-            : "/dashboard";
-      return NextResponse.redirect(new URL(dest, nextUrl));
-    }
+    if (session) return NextResponse.redirect(new URL(roleHome(role), nextUrl));
     return NextResponse.next();
   }
 
@@ -44,13 +42,7 @@ export default auth((req) => {
 
   if (!role || !guard.roles.includes(role)) {
     // Authenticated but wrong role → send to their own home.
-    const dest =
-      role === "ADMIN"
-        ? "/admin"
-        : role === "PROVIDER"
-          ? "/provider"
-          : "/dashboard";
-    return NextResponse.redirect(new URL(dest, nextUrl));
+    return NextResponse.redirect(new URL(roleHome(role), nextUrl));
   }
 
   return NextResponse.next();
@@ -58,8 +50,11 @@ export default auth((req) => {
 
 export const config = {
   matcher: [
+    "/admin",
     "/admin/:path*",
+    "/provider",
     "/provider/:path*",
+    "/dashboard",
     "/dashboard/:path*",
     "/login",
     "/register",

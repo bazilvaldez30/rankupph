@@ -1,6 +1,6 @@
 import { Banknote, Clock, Package, TrendingUp } from "lucide-react";
 import { Prisma } from "@prisma/client";
-import { requireRole } from "@/lib/auth";
+import { requirePageRole } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { AccountShell } from "@/components/shared/account-shell";
 import { OrderStatusBadge } from "@/components/shared/status-badge";
@@ -60,7 +60,7 @@ async function loadStats() {
 }
 
 export default async function AdminPage() {
-  const user = await requireRole("ADMIN");
+  const user = await requirePageRole(["ADMIN"], "/admin");
   const stats = await loadStats();
 
   const cards = [
