@@ -9,8 +9,28 @@ function read(key: string): string | undefined {
   return v && v.trim().length > 0 ? v.trim() : undefined;
 }
 
+const FALLBACK_URL = "http://localhost:3000";
+
+/**
+ * Always return a valid absolute URL. Tolerates common misconfigurations:
+ * a missing scheme (adds https://), stray quotes/whitespace, or trailing slash.
+ * Guarantees `new URL(env.appUrl)` never throws at build time.
+ */
+function normalizeAppUrl(raw: string | undefined): string {
+  if (!raw) return FALLBACK_URL;
+  let s = raw.trim().replace(/^["']|["']$/g, "").trim();
+  if (!s) return FALLBACK_URL;
+  if (!/^https?:\/\//i.test(s)) s = `https://${s}`;
+  try {
+    const u = new URL(s);
+    return u.origin; // drops any path/trailing slash
+  } catch {
+    return FALLBACK_URL;
+  }
+}
+
 export const env = {
-  appUrl: read("NEXT_PUBLIC_APP_URL") ?? "http://localhost:3000",
+  appUrl: normalizeAppUrl(read("NEXT_PUBLIC_APP_URL")),
 
   databaseUrl: read("DATABASE_URL"),
 
