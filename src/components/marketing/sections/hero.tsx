@@ -2,16 +2,9 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, ShieldCheck, Star, Zap } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Counter } from "@/components/shared/counter";
 import { LiveActivity } from "@/components/marketing/live-activity";
-
-const TRUST = [
-  { icon: ShieldCheck, label: "100% Secure & Private" },
-  { icon: Zap, label: "Fast Delivery" },
-  { icon: Star, label: "Immortal Boosters" },
-];
 
 const fade = {
   hidden: { opacity: 0, y: 20 },
@@ -24,7 +17,7 @@ const fade = {
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pb-20 pt-24 sm:pt-32">
+    <section className="relative overflow-hidden pb-16 pt-24 sm:pt-32">
       {/* Animated backdrop */}
       <div className="pointer-events-none absolute inset-0 grid-backdrop" />
       <motion.div
@@ -47,7 +40,7 @@ export function Hero() {
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-gold/60" />
               <span className="relative inline-flex size-2 rounded-full bg-gold" />
             </span>
-            Trusted by 3,000+ competitive Dota 2 players
+            Premium Dota 2 boosting — now serving players worldwide
           </motion.div>
 
           <motion.h1
@@ -62,17 +55,23 @@ export function Hero() {
             Rank <span className="gold-text">Faster.</span>
           </motion.h1>
 
-          <motion.p
+          {/* Updated worldwide subtitle — highly visible on desktop & mobile */}
+          <motion.div
             custom={2}
             variants={fade}
             initial="hidden"
             animate="show"
-            className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl"
+            className="mx-auto mt-6 max-w-2xl"
           >
-            Professional Dota 2 MMR boosting, duo queue, and coaching — delivered
-            by verified Immortal players. Secure, discreet, and built for
-            competitive climbers.
-          </motion.p>
+            <p className="font-display text-xl font-semibold text-white sm:text-2xl">
+              Premium Dota 2 Services Worldwide
+            </p>
+            <p className="mt-2 text-base text-muted-foreground sm:text-lg">
+              Trusted by{" "}
+              <span className="font-medium text-gold">Dota 2 Players Worldwide</span>
+              {" "}— professional boosting available globally.
+            </p>
+          </motion.div>
 
           <motion.div
             custom={3}
@@ -87,32 +86,24 @@ export function Hero() {
                 <ArrowRight className="size-4" />
               </Link>
             </Button>
-            <Button
-              asChild
-              variant="secondary"
-              size="xl"
-              className="w-full sm:w-auto"
-            >
+            <Button asChild variant="secondary" size="xl" className="w-full sm:w-auto">
               <Link href="/services">Explore Services</Link>
             </Button>
           </motion.div>
 
+          {/* 🌍 Global trust badge — directly below the CTA */}
           <motion.div
             custom={4}
             variants={fade}
             initial="hidden"
             animate="show"
-            className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3"
+            className="mt-7 flex justify-center"
           >
-            {TRUST.map((t) => (
-              <div
-                key={t.label}
-                className="flex items-center gap-2 text-sm text-muted-foreground"
-              >
-                <t.icon className="size-4 text-gold" />
-                {t.label}
-              </div>
-            ))}
+            <span className="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium text-white">
+              <span aria-hidden className="text-base">🌍</span>
+              Trusted by{" "}
+              <span className="text-gold">Dota 2 Players Worldwide</span>
+            </span>
           </motion.div>
 
           <motion.div
@@ -120,34 +111,11 @@ export function Hero() {
             variants={fade}
             initial="hidden"
             animate="show"
-            className="mt-8 flex justify-center"
+            className="mt-6 flex justify-center"
           >
             <LiveActivity />
           </motion.div>
         </div>
-
-        {/* Stats strip */}
-        <motion.div
-          custom={6}
-          variants={fade}
-          initial="hidden"
-          animate="show"
-          className="mx-auto mt-16 grid max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.02] sm:grid-cols-4"
-        >
-          {[
-            { value: 12000, suffix: "+", label: "Orders Completed" },
-            { value: 3000, suffix: "+", label: "Happy Players" },
-            { value: 98, suffix: "%", label: "Satisfaction" },
-            { value: 24, suffix: "/7", label: "Support" },
-          ].map((s) => (
-            <div key={s.label} className="bg-ink-900/60 px-4 py-6 text-center">
-              <div className="font-display text-2xl font-bold text-white sm:text-3xl">
-                <Counter to={s.value} suffix={s.suffix} />
-              </div>
-              <div className="mt-1 text-xs text-muted-foreground">{s.label}</div>
-            </div>
-          ))}
-        </motion.div>
       </div>
     </section>
   );

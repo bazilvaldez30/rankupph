@@ -11,6 +11,12 @@ export const runtime = "nodejs";
 export async function POST(req: Request) {
   return handle(async () => {
     const user = await requireUser();
+    if (user.role !== "CUSTOMER") {
+      return fail(
+        "Only customer accounts can place orders. Booster and admin accounts can't check out.",
+        403,
+      );
+    }
     const input = createOrderSchema.parse(await req.json());
 
     // Authoritative server-side quote — the client price is never trusted.

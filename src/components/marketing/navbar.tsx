@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
 import { Button } from "@/components/ui/button";
+import { CurrencySelector } from "@/components/currency/currency-selector";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
@@ -58,6 +59,7 @@ export function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
+          <CurrencySelector />
           {session ? (
             <Button asChild size="sm">
               <Link href={dashHref}>Dashboard</Link>
@@ -97,6 +99,12 @@ export function Navbar() {
                 {l.label}
               </Link>
             ))}
+            <div className="mt-3 flex items-center justify-between border-t border-white/[0.06] pt-3">
+              <span className="text-xs uppercase tracking-wider text-muted-foreground">
+                Currency
+              </span>
+              <CurrencySelector />
+            </div>
             <div className="mt-2 flex flex-col gap-2">
               {session ? (
                 <Button asChild className="w-full">

@@ -33,10 +33,14 @@ export const metadata: Metadata = {
   description: SITE.description,
   keywords: [
     "Dota 2 Boosting",
+    "Dota 2 Boosting Worldwide",
+    "Global Dota 2 Services",
     "Dota 2 MMR Boosting",
     "Dota 2 Duo Queue",
-    "Dota 2 Coaching",
-    "MMR Boosting Philippines",
+    "International Dota 2 Coaching",
+    "Worldwide Calibration Services",
+    "Global Ranked Wins Services",
+    "Dota 2 Boosting SEA EU NA",
     "RankUpPH",
   ],
   authors: [{ name: SITE.name }],
@@ -48,7 +52,7 @@ export const metadata: Metadata = {
     siteName: SITE.name,
     title: `${SITE.name} — Premium Dota 2 Services`,
     description: SITE.description,
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: SITE.name }],
+    // og:image is provided by app/opengraph-image.tsx (generated).
   },
   twitter: {
     card: "summary_large_image",

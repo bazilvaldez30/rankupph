@@ -13,7 +13,12 @@ import {
 } from "lucide-react";
 import type { ServiceQuote } from "@/hooks/use-quote";
 import type { PublicRank, PublicService } from "@/lib/fallback-data";
-import { formatCentavos } from "@/lib/format";
+import {
+  medalImageForMmr,
+  medalNameForMmr,
+  rankLabelForMmr,
+} from "@/lib/rank-medals";
+import { Price } from "@/components/shared/price";
 import { Button } from "@/components/ui/button";
 import { RankMedal } from "./rank-medal";
 
@@ -46,14 +51,14 @@ const TRUST = [
   { icon: Headphones, label: "24/7 Support" },
 ];
 
-function MedalRow({ rank, mmr, label }: { rank: PublicRank | null; mmr: number; label: string }) {
+function MedalRow({ mmr, label }: { mmr: number; label: string }) {
   return (
     <div className="flex items-center gap-3">
-      <RankMedal name={rank?.name ?? "Archon"} iconUrl={rank?.iconUrl} size="sm" />
+      <RankMedal name={medalNameForMmr(mmr)} iconUrl={medalImageForMmr(mmr)} size="sm" />
       <div>
         <div className="text-xs text-muted-foreground">{label}</div>
         <div className="font-display text-sm font-semibold text-white">
-          {rank?.name ?? "—"}
+          {rankLabelForMmr(mmr)}
           <span className="ml-1.5 font-sans text-xs font-normal text-muted-foreground">
             {mmr.toLocaleString()} MMR
           </span>
@@ -86,19 +91,11 @@ export function OrderSummary({
         {/* Rank progression */}
         {progression && (
           <div className="space-y-3 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4">
-            <MedalRow
-              rank={progression.current.rank}
-              mmr={progression.current.mmr}
-              label="Current"
-            />
+            <MedalRow mmr={progression.current.mmr} label="Current" />
             {progression.target && (
               <>
                 <ArrowDown className="ml-3 size-4 text-gold" />
-                <MedalRow
-                  rank={progression.target.rank}
-                  mmr={progression.target.mmr}
-                  label="Target"
-                />
+                <MedalRow mmr={progression.target.mmr} label="Target" />
                 {progression.diff != null && progression.diff > 0 && (
                   <div className="flex items-center justify-between border-t border-white/[0.06] pt-3 text-sm">
                     <span className="text-muted-foreground">MMR difference</span>
@@ -130,19 +127,23 @@ export function OrderSummary({
             {quote.breakdown.map((l, i) => (
               <div key={`b${i}`} className="flex justify-between text-muted-foreground">
                 <span>{l.label}</span>
-                <span className="tabular-nums">{formatCentavos(l.amount)}</span>
+                <Price centavos={l.amount} className="tabular-nums" />
               </div>
             ))}
             {quote.optionsApplied.map((l, i) => (
               <div key={`o${i}`} className="flex justify-between text-muted-foreground">
                 <span>{l.label}</span>
-                <span className="tabular-nums">+{formatCentavos(l.amount)}</span>
+                <span className="tabular-nums">
+                  +<Price centavos={l.amount} />
+                </span>
               </div>
             ))}
             {quote.modifiersApplied.map((l, i) => (
               <div key={`m${i}`} className="flex justify-between text-gold/90">
                 <span>{l.label}</span>
-                <span className="tabular-nums">+{formatCentavos(l.amount)}</span>
+                <span className="tabular-nums">
+                  +<Price centavos={l.amount} />
+                </span>
               </div>
             ))}
           </div>
@@ -186,7 +187,7 @@ export function OrderSummary({
                   animate={{ opacity: loading ? 0.5 : 1, y: 0 }}
                   className="font-display text-3xl font-bold tabular-nums text-white"
                 >
-                  {quote?.valid ? formatCentavos(quote.total) : "—"}
+                  {quote?.valid ? <Price centavos={quote.total} /> : "—"}
                 </motion.span>
               )}
             </AnimatePresence>

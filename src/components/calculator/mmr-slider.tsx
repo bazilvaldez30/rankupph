@@ -2,8 +2,11 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
-import { rankFromMmr } from "@/lib/pricing";
-import type { PublicRank } from "@/lib/fallback-data";
+import {
+  medalImageForMmr,
+  medalNameForMmr,
+  rankLabelForMmr,
+} from "@/lib/rank-medals";
 import { RankMedal } from "./rank-medal";
 
 interface MmrSliderProps {
@@ -12,7 +15,6 @@ interface MmrSliderProps {
   min: number;
   max: number;
   step?: number;
-  ranks: PublicRank[];
   onChange: (n: number) => void;
 }
 
@@ -22,10 +24,10 @@ export function MmrSlider({
   min,
   max,
   step = 10,
-  ranks,
   onChange,
 }: MmrSliderProps) {
-  const rank = rankFromMmr(ranks, value);
+  const image = medalImageForMmr(value);
+  const rankLabel = rankLabelForMmr(value);
 
   return (
     <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-5">
@@ -47,26 +49,26 @@ export function MmrSlider({
       <div className="mt-4 flex items-center gap-4">
         <AnimatePresence mode="popLayout">
           <motion.div
-            key={rank?.order ?? "none"}
+            key={image}
             initial={{ opacity: 0, scale: 0.7, rotate: -8 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             exit={{ opacity: 0, scale: 0.7 }}
             transition={{ type: "spring", stiffness: 360, damping: 22 }}
           >
-            <RankMedal name={rank?.name ?? "Archon"} iconUrl={rank?.iconUrl} size="md" />
+            <RankMedal name={medalNameForMmr(value)} iconUrl={image} size="md" />
           </motion.div>
         </AnimatePresence>
         <div className="min-w-0 flex-1">
           <AnimatePresence mode="wait">
             <motion.div
-              key={rank?.name ?? "none"}
+              key={rankLabel}
               initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 8 }}
               transition={{ duration: 0.25 }}
               className="font-display text-lg font-semibold text-white"
             >
-              {rank?.name ?? "—"}
+              {rankLabel}
             </motion.div>
           </AnimatePresence>
           <Slider

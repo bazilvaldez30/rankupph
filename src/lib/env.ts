@@ -31,6 +31,9 @@ export const env = {
   cloudinaryApiKey: read("CLOUDINARY_API_KEY"),
   cloudinaryApiSecret: read("CLOUDINARY_API_SECRET"),
   cloudinaryPreset: read("NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET"),
+
+  gcashNumber: read("GCASH_NUMBER") ?? "0917 000 0000",
+  gcashName: read("GCASH_NAME") ?? "RankUpPH",
 } as const;
 
 export const features = {

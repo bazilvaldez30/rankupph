@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { Prisma } from "@prisma/client";
 import { AuthError } from "./auth";
+import { WorkflowError } from "./order-workflow";
 
 export type ApiError = { error: string; details?: unknown };
 
@@ -23,6 +24,9 @@ export async function handle<T>(fn: () => Promise<T>) {
   } catch (err) {
     if (err instanceof ZodError) {
       return fail("Validation failed.", 422, err.flatten());
+    }
+    if (err instanceof WorkflowError) {
+      return fail(err.message, err.code);
     }
     if (err instanceof AuthError) {
       return err.code === "UNAUTHENTICATED"

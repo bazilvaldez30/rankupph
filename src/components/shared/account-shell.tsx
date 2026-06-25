@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Logo } from "@/components/shared/logo";
 import { SignOutButton } from "@/components/auth/sign-out-button";
+import { NotificationBell } from "@/components/shared/notification-bell";
+import { CurrencySelector } from "@/components/currency/currency-selector";
 import { Badge } from "@/components/ui/badge";
 
 interface AccountShellProps {
@@ -30,9 +32,13 @@ export function AccountShell({
                 {userName}
               </span>
             )}
+            <div className="hidden sm:block">
+              <CurrencySelector />
+            </div>
+            <NotificationBell />
             <Link
               href="/"
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="hidden text-sm text-muted-foreground transition-colors hover:text-foreground sm:inline"
             >
               Home
             </Link>

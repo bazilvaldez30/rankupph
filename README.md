@@ -12,11 +12,19 @@ TanStack Query · Zustand · Prisma + PostgreSQL (Supabase) · Auth.js v5
 
 ## Milestone status
 
-- **M1 — Foundation slice (shipped):** schema + seed, auth, luxury landing page,
-  DB-driven pricing calculator, order creation, order tracking, minimal
-  role-based dashboards.
-- **M2** Stripe checkout + webhooks · **M3** GCash manual verification ·
-  **M4** full dashboards · **M5** realtime chat + notifications · **M6** polish.
+- **M1 — Foundation:** schema + seed, auth (role-based redirects), luxury landing,
+  order tracking, role dashboards. ✅
+- **Calculator:** 5 categories (MMR Boosting, Calibration, Ranked Wins, Battle Cup,
+  Low Priority); Duo as a boosting mode. **MMR-first** sliders + live rank medals;
+  **banded per-100-MMR** pricing, fully DB-driven & admin-editable. ✅
+- **M2 — Stripe** checkout + signature-verified webhooks (order PAID only via webhook). ✅
+- **M3 — GCash** manual verification (submit + admin approve/reject). ✅
+- **M4 — Lifecycle & admin:** admin-assign + booster self-claim → accept → progress →
+  complete → confirm; admin orders/payments/boosters/pricing/audit; order detail pages. ✅
+- **M5 — Realtime chat** (Pusher + polling fallback, read receipts, typing, uploads),
+  notifications bell, **encrypted credential vault** (AES-256-GCM) + audit log. ✅
+- **M6 — Polish:** OG image, manifest, security headers, loading/error states,
+  deployment guide. ✅  → see [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ## Getting started
 

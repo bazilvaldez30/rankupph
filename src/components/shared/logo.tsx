@@ -16,27 +16,13 @@ export function Logo({
         className,
       )}
     >
-      <span className="relative flex size-8 items-center justify-center rounded-lg bg-gold-gradient text-ink-900 shadow-gold">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          className="size-4"
-          aria-hidden="true"
-        >
-          <path
-            d="M12 2L4 8l8 5 8-5-8-6Z"
-            fill="currentColor"
-            opacity="0.9"
-          />
-          <path
-            d="M4 14l8 5 8-5"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </span>
+      <img
+        src="/rankup-logo.png"
+        alt="RankUpPH"
+        width={36}
+        height={36}
+        className="size-9 shrink-0 object-contain transition-transform group-hover:scale-105"
+      />
       <span className="text-white">
         RankUp<span className="text-gold">PH</span>
       </span>

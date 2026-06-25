@@ -25,8 +25,14 @@ export function FinalCTA() {
               </h2>
 
               <p className="mx-auto mt-5 max-w-xl text-base text-muted-foreground sm:text-lg">
-                Join thousands of players who climbed with RankUpPH. Get an
-                instant quote and start your boost today.
+                Join competitive players worldwide who climbed with RankUpPH.
+                Premium Dota 2 services across all major regions — get an instant
+                quote and start today.
+              </p>
+
+              <p className="mt-3 text-sm text-gold">
+                Competitive Pricing. Global Coverage. · Secure Payments via Stripe
+                and GCash.
               </p>
 
               <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">

@@ -81,14 +81,14 @@ export interface RankData {
 // MMR bands chosen so 4000 & 4500 → Ancient and 5500 → Immortal (per spec).
 // pricePer100 rises with rank — higher MMR is harder to climb. All DB-editable.
 export const RANKS_DATA: RankData[] = [
-  { name: "Herald", order: 1, hasStars: true, maxStar: 5, minMmr: 0, maxMmr: 769, pricePer100: peso(90), iconUrl: "" },
-  { name: "Guardian", order: 2, hasStars: true, maxStar: 5, minMmr: 770, maxMmr: 1539, pricePer100: peso(110), iconUrl: "" },
-  { name: "Crusader", order: 3, hasStars: true, maxStar: 5, minMmr: 1540, maxMmr: 2309, pricePer100: peso(140), iconUrl: "" },
-  { name: "Archon", order: 4, hasStars: true, maxStar: 5, minMmr: 2310, maxMmr: 3079, pricePer100: peso(190), iconUrl: "" },
-  { name: "Legend", order: 5, hasStars: true, maxStar: 5, minMmr: 3080, maxMmr: 3849, pricePer100: peso(280), iconUrl: "" },
-  { name: "Ancient", order: 6, hasStars: true, maxStar: 5, minMmr: 3850, maxMmr: 4619, pricePer100: peso(440), iconUrl: "" },
-  { name: "Divine", order: 7, hasStars: true, maxStar: 5, minMmr: 4620, maxMmr: 5499, pricePer100: peso(680), iconUrl: "" },
-  { name: "Immortal", order: 8, hasStars: false, maxStar: 1, minMmr: 5500, maxMmr: 8000, pricePer100: peso(1200), iconUrl: "" },
+  { name: "Herald", order: 1, hasStars: true, maxStar: 5, minMmr: 0, maxMmr: 769, pricePer100: peso(90), iconUrl: "/SeasonalRank1-1.png" },
+  { name: "Guardian", order: 2, hasStars: true, maxStar: 5, minMmr: 770, maxMmr: 1539, pricePer100: peso(110), iconUrl: "/SeasonalRank2-1.png" },
+  { name: "Crusader", order: 3, hasStars: true, maxStar: 5, minMmr: 1540, maxMmr: 2309, pricePer100: peso(140), iconUrl: "/SeasonalRank3-1.png" },
+  { name: "Archon", order: 4, hasStars: true, maxStar: 5, minMmr: 2310, maxMmr: 3079, pricePer100: peso(190), iconUrl: "/SeasonalRank4-1.png" },
+  { name: "Legend", order: 5, hasStars: true, maxStar: 5, minMmr: 3080, maxMmr: 3849, pricePer100: peso(280), iconUrl: "/SeasonalRank5-1.png" },
+  { name: "Ancient", order: 6, hasStars: true, maxStar: 5, minMmr: 3850, maxMmr: 4619, pricePer100: peso(440), iconUrl: "/SeasonalRank6-1.png" },
+  { name: "Divine", order: 7, hasStars: true, maxStar: 5, minMmr: 4620, maxMmr: 5619, pricePer100: peso(680), iconUrl: "/SeasonalRank7-1.png" },
+  { name: "Immortal", order: 8, hasStars: false, maxStar: 1, minMmr: 5620, maxMmr: 9000, pricePer100: peso(1200), iconUrl: "/SeasonalRankTop0.png" },
 ];
 
 /** Slider bounds derived from the rank bands. */

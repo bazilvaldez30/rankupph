@@ -6,7 +6,7 @@ export const SITE = {
   legalName: "RankUpPH Boosting Services",
   tagline: "Reach Your Desired Rank Faster.",
   description:
-    "Professional Dota 2 MMR boosting, duo queue, and coaching trusted by competitive players. Secure, fast, and discreet — built for Filipino players.",
+    "Premium Dota 2 boosting, duo queue, calibration, ranked wins, and coaching for players worldwide. Global coverage across all major Dota 2 regions. Secure payments via Stripe and GCash. Trusted by competitive players worldwide.",
   domain: "rankupph.com",
   twitter: "@rankupph",
   supportEmail: "support@rankupph.com",
@@ -50,9 +50,9 @@ export const ORDER_STATUS_META: Record<
   PAID: { label: "Paid", tone: "info" },
   ASSIGNED: { label: "Booster Assigned", tone: "info" },
   IN_PROGRESS: { label: "In Progress", tone: "info" },
-  COMPLETED: { label: "Completed", tone: "success" },
-  CONFIRMED: { label: "Confirmed", tone: "success" },
-  CLOSED: { label: "Closed", tone: "neutral" },
+  COMPLETED: { label: "Awaiting Confirmation", tone: "warning" },
+  CONFIRMED: { label: "Completed", tone: "success" },
+  CLOSED: { label: "Completed", tone: "success" },
   CANCELLED: { label: "Cancelled", tone: "danger" },
   REFUNDED: { label: "Refunded", tone: "danger" },
 };
@@ -76,6 +76,17 @@ export const PAYMENT_STATUS_META: Record<
   SUCCEEDED: { label: "Succeeded", tone: "success" },
   FAILED: { label: "Failed", tone: "danger" },
   REJECTED: { label: "Rejected", tone: "danger" },
+};
+
+export const AUDIT_ACTION_META: Record<
+  string,
+  { label: string; tone: "neutral" | "info" | "warning" | "success" | "danger" }
+> = {
+  CREDENTIAL_VIEWED: { label: "Credential viewed", tone: "warning" },
+  CREDENTIAL_UPDATED: { label: "Credential updated", tone: "info" },
+  BACKUP_CODES_VIEWED: { label: "Backup codes viewed", tone: "danger" },
+  BOOSTER_ASSIGNED: { label: "Booster assigned", tone: "info" },
+  ORDER_STARTED: { label: "Order started", tone: "success" },
 };
 
 export const MODIFIER_KEYS = {

@@ -19,6 +19,7 @@ const COLUMNS = [
       { href: "/#reviews", label: "Reviews" },
       { href: "/#faq", label: "FAQ" },
       { href: "/track-order", label: "Track Order" },
+      { href: "/become-a-booster", label: "Become a Booster" },
     ],
   },
   {
@@ -75,7 +76,7 @@ export function Footer() {
             © {new Date().getFullYear()} {SITE.legalName}. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground">
-            Built for Filipino players · Secure payments via Stripe &amp; GCash
+            Serving Dota 2 players worldwide · Secure payments via Stripe &amp; GCash
           </p>
         </div>
       </div>

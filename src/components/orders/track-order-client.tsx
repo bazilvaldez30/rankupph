@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OrderTimeline } from "@/components/orders/order-timeline";
 import { OrderStatusBadge } from "@/components/shared/status-badge";
-import { formatCentavos, formatDate } from "@/lib/format";
+import { formatDate } from "@/lib/format";
+import { Price } from "@/components/shared/price";
 
 interface TrackResult {
   orderNumber: string;
@@ -132,7 +133,7 @@ export function TrackOrderClient() {
             <div>
               <p className="text-xs text-muted-foreground">Total</p>
               <p className="mt-1 text-sm font-medium text-white">
-                {formatCentavos(result.amount)}
+                <Price centavos={result.amount} />
               </p>
             </div>
           </div>

@@ -107,11 +107,13 @@ model User {
 
   ordersAsCustomer Order[]               @relation("CustomerOrders")
   ordersAsBooster  Order[]               @relation("BoosterOrders")
-  messages         Message[]
+  chatParticipants ChatParticipant[]
+  chatMessages     ChatMessage[]
   reviews          Review[]
   progressUpdates  OrderProgressUpdate[]
   notifications    Notification[]
   reviewedPayments Payment[]             @relation("PaymentReviewer")
+  auditLogs        AuditLog[]
 
   @@index([role])
 }
@@ -323,9 +325,11 @@ model Order {
   targetRank  Rank? @relation("OrderTargetRank", fields: [targetRankId], references: [id])
 
   payments        Payment[]
-  messages        Message[]
+  chat            OrderChat?
+  credential      OrderCredential?
   review          Review?
   progressUpdates OrderProgressUpdate[]
+  auditLogs       AuditLog[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -359,17 +363,116 @@ model Payment {
   @@index([provider, status])
 }
 
-model Message {
+// ── Chat ─────────────────────────────────────────────────────
+
+enum ChatRole {
+  CUSTOMER
+  BOOSTER
+  ADMIN
+}
+
+model OrderChat {
   id        String   @id @default(cuid())
-  orderId   String
+  orderId   String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order        Order             @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  participants ChatParticipant[]
+  messages     ChatMessage[]
+}
+
+model ChatParticipant {
+  id         String    @id @default(cuid())
+  chatId     String
+  userId     String
+  role       ChatRole
+  lastReadAt DateTime?
+
+  chat OrderChat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([chatId, userId])
+  @@index([userId])
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  chatId    String
   senderId  String
   body      String   @db.Text
   createdAt DateTime @default(now())
 
-  order  Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  sender User  @relation(fields: [senderId], references: [id])
+  chat        OrderChat           @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  sender      User                @relation(fields: [senderId], references: [id])
+  attachments MessageAttachment[]
 
-  @@index([orderId, createdAt])
+  @@index([chatId, createdAt])
+}
+
+model MessageAttachment {
+  id        String   @id @default(cuid())
+  messageId String
+  url       String
+  publicId  String?
+  mimeType  String?
+  width     Int?
+  height    Int?
+  bytes     Int?
+  createdAt DateTime @default(now())
+
+  message ChatMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@index([messageId])
+}
+
+// ── Account credentials (encrypted at rest) ──────────────────
+
+enum SteamGuardStatus {
+  NONE
+  EMAIL
+  MOBILE
+  DISABLED
+}
+
+model OrderCredential {
+  id               String           @id @default(cuid())
+  orderId          String           @unique
+  steamUsername    String
+  steamPasswordEnc String           @db.Text // AES-256-GCM
+  steamGuard       SteamGuardStatus @default(MOBILE)
+  backupCodesEnc   String?          @db.Text // AES-256-GCM (codes, one per line)
+  notes            String?          @db.Text
+  submittedAt      DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+// ── Audit trail ──────────────────────────────────────────────
+
+enum AuditAction {
+  CREDENTIAL_VIEWED
+  CREDENTIAL_UPDATED
+  BACKUP_CODES_VIEWED
+  BOOSTER_ASSIGNED
+  ORDER_STARTED
+}
+
+model AuditLog {
+  id        String      @id @default(cuid())
+  userId    String?
+  action    AuditAction
+  orderId   String?
+  ip        String?
+  meta      Json?
+  createdAt DateTime    @default(now())
+
+  user  User?  @relation(fields: [userId], references: [id])
+  order Order? @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@index([userId])
 }
 
 model Review {

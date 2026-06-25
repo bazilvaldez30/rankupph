@@ -1,9 +1,11 @@
-import { Banknote, Clock, Package, TrendingUp } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Banknote, Clock, Package, TrendingUp } from "lucide-react";
 import { Prisma } from "@prisma/client";
 import { requirePageRole } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { AccountShell } from "@/components/shared/account-shell";
 import { OrderStatusBadge } from "@/components/shared/status-badge";
+import { Button } from "@/components/ui/button";
 import { formatCentavos, formatDate } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -17,7 +19,7 @@ type RecentOrder = Prisma.OrderGetPayload<{
 
 async function loadStats() {
   try {
-    const [paidAgg, activeCount, pendingCount, completedCount, recent] =
+    const [paidAgg, activeCount, awaitingAssignment, completedCount, recent] =
       await Promise.all([
         prisma.order.aggregate({
           _sum: { amount: true },
@@ -30,7 +32,7 @@ async function loadStats() {
         prisma.order.count({
           where: { status: { in: ["ASSIGNED", "IN_PROGRESS"] } },
         }),
-        prisma.order.count({ where: { status: "PENDING_PAYMENT" } }),
+        prisma.order.count({ where: { status: "PAID", boosterId: null } }),
         prisma.order.count({ where: { status: { in: ["CONFIRMED", "CLOSED"] } } }),
         prisma.order.findMany({
           orderBy: { createdAt: "desc" },
@@ -44,7 +46,7 @@ async function loadStats() {
     return {
       revenue: paidAgg._sum.amount ?? 0,
       activeCount,
-      pendingCount,
+      awaitingAssignment,
       completedCount,
       recent,
     };
@@ -52,7 +54,7 @@ async function loadStats() {
     return {
       revenue: 0,
       activeCount: 0,
-      pendingCount: 0,
+      awaitingAssignment: 0,
       completedCount: 0,
       recent: [] as RecentOrder[],
     };
@@ -70,19 +72,41 @@ export default async function AdminPage() {
       icon: Banknote,
     },
     { label: "Active Orders", value: String(stats.activeCount), icon: TrendingUp },
-    { label: "Pending", value: String(stats.pendingCount), icon: Clock },
+    { label: "Awaiting Assignment", value: String(stats.awaitingAssignment), icon: Clock },
     { label: "Completed", value: String(stats.completedCount), icon: Package },
   ];
 
   return (
     <AccountShell roleLabel="Admin" userName={user.name}>
-      <h1 className="font-display text-3xl font-bold text-white">
-        Admin overview
-      </h1>
-      <p className="mt-1 text-muted-foreground">
-        Revenue and order health at a glance. Full management tools arrive with
-        the admin dashboard.
-      </p>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="font-display text-3xl font-bold text-white">
+            Admin overview
+          </h1>
+          <p className="mt-1 text-muted-foreground">
+            Revenue and order health at a glance.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Button asChild variant="secondary" size="sm">
+            <Link href="/admin/payments">Payments</Link>
+          </Button>
+          <Button asChild variant="secondary" size="sm">
+            <Link href="/admin/boosters">Boosters</Link>
+          </Button>
+          <Button asChild variant="secondary" size="sm">
+            <Link href="/admin/pricing">Pricing</Link>
+          </Button>
+          <Button asChild variant="secondary" size="sm">
+            <Link href="/admin/audit">Audit log</Link>
+          </Button>
+          <Button asChild size="sm">
+            <Link href="/admin/orders">
+              Manage orders <ArrowRight className="size-4" />
+            </Link>
+          </Button>
+        </div>
+      </div>
 
       <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
         {cards.map((c) => (
@@ -102,6 +126,29 @@ export default async function AdminPage() {
           </div>
         ))}
       </div>
+
+      {stats.awaitingAssignment > 0 && (
+        <Link
+          href="/admin/orders"
+          className="mt-6 flex items-center justify-between gap-4 rounded-2xl border border-gold/25 bg-gold/[0.05] px-5 py-4 transition-colors hover:bg-gold/[0.08]"
+        >
+          <div className="flex items-center gap-3">
+            <Clock className="size-5 text-gold" />
+            <div>
+              <p className="text-sm font-medium text-white">
+                {stats.awaitingAssignment} paid order
+                {stats.awaitingAssignment > 1 ? "s" : ""} awaiting a booster
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Assign a booster to get these started.
+              </p>
+            </div>
+          </div>
+          <span className="inline-flex items-center gap-1 text-sm font-medium text-gold">
+            Assign now <ArrowRight className="size-4" />
+          </span>
+        </Link>
+      )}
 
       <h2 className="mb-4 mt-10 font-display text-lg font-semibold text-white">
         Recent orders

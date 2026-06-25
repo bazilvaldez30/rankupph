@@ -4,8 +4,10 @@ import { requirePageRole } from "@/lib/auth";
 import { getCustomerOrders } from "@/lib/account-queries";
 import { AccountShell } from "@/components/shared/account-shell";
 import { OrderStatusBadge } from "@/components/shared/status-badge";
+import { CancelOrderButton } from "@/components/orders/cancel-order-button";
 import { Button } from "@/components/ui/button";
-import { formatCentavos, formatDate } from "@/lib/format";
+import { formatDate } from "@/lib/format";
+import { Price } from "@/components/shared/price";
 
 export const dynamic = "force-dynamic";
 
@@ -100,27 +102,31 @@ export default async function DashboardPage() {
                     {formatDate(o.createdAt)}
                   </td>
                   <td className="px-5 py-4 text-white">
-                    {formatCentavos(o.amount)}
+                    <Price centavos={o.amount} />
                   </td>
                   <td className="px-5 py-4">
                     <OrderStatusBadge status={o.status} />
                   </td>
-                  <td className="px-5 py-4 text-right">
-                    {o.status === "PENDING_PAYMENT" ? (
+                  <td className="px-5 py-4">
+                    <div className="flex items-center justify-end gap-3">
+                      {o.status === "PENDING_PAYMENT" && (
+                        <>
+                          <Link
+                            href={`/checkout/${o.orderNumber}`}
+                            className="font-medium text-gold hover:underline"
+                          >
+                            Pay now
+                          </Link>
+                          <CancelOrderButton orderId={o.id} />
+                        </>
+                      )}
                       <Link
-                        href={`/checkout/${o.orderNumber}`}
-                        className="font-medium text-gold hover:underline"
-                      >
-                        Pay now
-                      </Link>
-                    ) : (
-                      <Link
-                        href={`/track-order?number=${o.orderNumber}`}
+                        href={`/dashboard/orders/${o.id}`}
                         className="text-gold hover:underline"
                       >
-                        Track
+                        View
                       </Link>
-                    )}
+                    </div>
                   </td>
                 </tr>
               ))}

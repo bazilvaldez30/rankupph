@@ -71,7 +71,6 @@ export function ServiceConfigurator({
             value={currentMmr}
             min={mmrMin}
             max={mmrMax}
-            ranks={ranks}
             onChange={setCurrentMmr}
           />
           {isMmrRange && (
@@ -86,7 +85,6 @@ export function ServiceConfigurator({
                 value={targetMmr}
                 min={mmrMin}
                 max={mmrMax}
-                ranks={ranks}
                 onChange={setTargetMmr}
               />
             </>

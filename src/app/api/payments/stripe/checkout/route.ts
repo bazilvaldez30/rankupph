@@ -51,7 +51,7 @@ export async function POST(req: Request) {
       payment_intent_data: {
         metadata: { orderId: order.id, orderNumber: order.orderNumber },
       },
-      success_url: `${env.appUrl}/track-order?number=${order.orderNumber}&status=success`,
+      success_url: `${env.appUrl}/orders/${order.orderNumber}/access?status=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${env.appUrl}/checkout/${order.orderNumber}?status=cancelled`,
     });
 

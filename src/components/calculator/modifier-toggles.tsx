@@ -1,7 +1,7 @@
 "use client";
 
 import { Switch } from "@/components/ui/switch";
-import { formatCentavos } from "@/lib/format";
+import { Price } from "@/components/shared/price";
 import type { PublicModifier } from "@/lib/fallback-data";
 
 interface ModifierTogglesProps {
@@ -10,9 +10,15 @@ interface ModifierTogglesProps {
   onToggle: (key: string) => void;
 }
 
-function modifierHint(m: PublicModifier): string {
-  if (m.kind === "MULTIPLIER") return `+${Math.round((m.value / 10000 - 1) * 100)}%`;
-  return `+${formatCentavos(m.value)}`;
+function ModifierHint({ m }: { m: PublicModifier }) {
+  if (m.kind === "MULTIPLIER") {
+    return <>+{Math.round((m.value / 10000 - 1) * 100)}%</>;
+  }
+  return (
+    <>
+      +<Price centavos={m.value} />
+    </>
+  );
 }
 
 /** Add-on toggles (excludes boosting-mode modifiers, which have their own UI). */
@@ -52,7 +58,7 @@ export function ModifierToggles({
             <div className="min-w-0 pr-4">
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium text-foreground">{m.label}</span>
-                <span className="text-xs font-medium text-gold">{modifierHint(m)}</span>
+                <span className="text-xs font-medium text-gold"><ModifierHint m={m} /></span>
               </div>
               <p className="mt-0.5 truncate text-xs text-muted-foreground">
                 {m.description}

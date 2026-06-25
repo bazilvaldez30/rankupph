@@ -4,11 +4,15 @@ import type { Metadata } from "next";
 import { ArrowDown, CheckCircle2, Clock, ShieldCheck } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
-import { features } from "@/lib/env";
+import { env, features } from "@/lib/env";
+import { cloudinaryEnabled } from "@/lib/cloudinary";
 import { formatCentavos } from "@/lib/format";
+import { Price } from "@/components/shared/price";
 import { OrderStatusBadge } from "@/components/shared/status-badge";
 import { RankMedal } from "@/components/calculator/rank-medal";
+import { medalImageForMmr, medalNameForMmr, rankLabelForMmr } from "@/lib/rank-medals";
 import { StripeCheckoutButton } from "@/components/checkout/stripe-checkout-button";
+import { GCashPayment } from "@/components/checkout/gcash-payment";
 import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
@@ -65,11 +69,11 @@ export default async function CheckoutPage({
           {order.currentMmr != null && order.targetMmr != null && (
             <div className="mb-6 space-y-3 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4">
               <div className="flex items-center gap-3">
-                <RankMedal name={order.currentRank?.name ?? "Archon"} iconUrl={order.currentRank?.iconUrl ?? undefined} size="sm" />
+                <RankMedal name={medalNameForMmr(order.currentMmr)} iconUrl={medalImageForMmr(order.currentMmr)} size="sm" />
                 <div>
                   <div className="text-xs text-muted-foreground">Current</div>
                   <div className="font-display text-sm font-semibold text-white">
-                    {order.currentRank?.name}
+                    {rankLabelForMmr(order.currentMmr)}
                     <span className="ml-1.5 font-sans text-xs font-normal text-muted-foreground">
                       {order.currentMmr.toLocaleString()} MMR
                     </span>
@@ -78,11 +82,11 @@ export default async function CheckoutPage({
               </div>
               <ArrowDown className="ml-3 size-4 text-gold" />
               <div className="flex items-center gap-3">
-                <RankMedal name={order.targetRank?.name ?? "Ancient"} iconUrl={order.targetRank?.iconUrl ?? undefined} size="sm" />
+                <RankMedal name={medalNameForMmr(order.targetMmr)} iconUrl={medalImageForMmr(order.targetMmr)} size="sm" />
                 <div>
                   <div className="text-xs text-muted-foreground">Target</div>
                   <div className="font-display text-sm font-semibold text-white">
-                    {order.targetRank?.name}
+                    {rankLabelForMmr(order.targetMmr)}
                     <span className="ml-1.5 font-sans text-xs font-normal text-muted-foreground">
                       {order.targetMmr.toLocaleString()} MMR
                     </span>
@@ -99,7 +103,7 @@ export default async function CheckoutPage({
                 <span>{l.label}</span>
                 <span className="tabular-nums">
                   {l.amount >= 0 ? "" : "-"}
-                  {formatCentavos(Math.abs(l.amount))}
+                  <Price centavos={Math.abs(l.amount)} />
                 </span>
               </div>
             ))}
@@ -117,9 +121,15 @@ export default async function CheckoutPage({
                 </p>
               )}
             </div>
-            <span className="font-display text-3xl font-bold tabular-nums text-white">
-              {formatCentavos(order.amount)}
-            </span>
+            <div className="text-right">
+              <Price
+                centavos={order.amount}
+                className="font-display text-3xl font-bold tabular-nums text-white"
+              />
+              <p className="mt-1 text-xs text-muted-foreground">
+                Charged as {formatCentavos(order.amount)} (PHP)
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -154,28 +164,37 @@ export default async function CheckoutPage({
                 Your order is confirmed once payment clears.
               </p>
 
-              <div className="mt-6 space-y-4">
-                {features.stripe ? (
-                  <StripeCheckoutButton orderNumber={order.orderNumber} />
-                ) : (
-                  <p className="rounded-xl border border-amber-400/20 bg-amber-400/10 px-4 py-3 text-sm text-amber-300">
-                    Card payments aren&apos;t configured yet. Add Stripe keys to
-                    enable card checkout.
-                  </p>
+              <div className="mt-6 space-y-6">
+                {features.stripe && (
+                  <div>
+                    <p className="mb-3 text-xs uppercase tracking-wider text-muted-foreground">
+                      Pay by card
+                    </p>
+                    <StripeCheckoutButton orderNumber={order.orderNumber} />
+                  </div>
                 )}
 
-                {/* GCash arrives in M3 */}
-                <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] px-4 py-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-foreground">
-                      GCash (manual)
+                {features.stripe && (
+                  <div className="flex items-center gap-3">
+                    <div className="h-px flex-1 bg-white/[0.07]" />
+                    <span className="text-xs uppercase tracking-widest text-muted-foreground">
+                      or
                     </span>
-                    <span className="text-xs text-muted-foreground">Coming soon</span>
+                    <div className="h-px flex-1 bg-white/[0.07]" />
                   </div>
-                  <p className="mt-0.5 text-xs text-muted-foreground">
-                    Pay via GCash and upload your reference — coming in the next
-                    update.
+                )}
+
+                <div>
+                  <p className="mb-3 text-xs uppercase tracking-wider text-muted-foreground">
+                    Pay with GCash
                   </p>
+                  <GCashPayment
+                    orderNumber={order.orderNumber}
+                    amountLabel={formatCentavos(order.amount)}
+                    gcashNumber={env.gcashNumber}
+                    gcashName={env.gcashName}
+                    uploadsEnabled={cloudinaryEnabled}
+                  />
                 </div>
               </div>
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight, Check, Crosshair, Swords, Target, Timer, Trophy } from "lucide-react";
 import type { ServiceCategoryKey } from "@/lib/catalog-data";
 import type { PublicService } from "@/lib/fallback-data";
-import { formatCentavos } from "@/lib/format";
+import { Price } from "@/components/shared/price";
 
 const ICONS: Record<ServiceCategoryKey, typeof Swords> = {
   MMR_BOOSTING: Target,
@@ -53,7 +53,7 @@ export function ServiceCard({ service }: { service: PublicService }) {
         <div>
           <span className="text-xs text-muted-foreground">Starting from</span>
           <div className="font-display text-2xl font-bold text-white">
-            {formatCentavos(service.basePrice)}
+            <Price centavos={service.basePrice} />
             <span className="text-sm font-normal text-muted-foreground">
               {priceSuffix}
             </span>

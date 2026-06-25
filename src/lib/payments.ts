@@ -2,6 +2,7 @@ import "server-only";
 import type { PaymentProvider } from "@prisma/client";
 import { prisma } from "./prisma";
 import { createNotification } from "./notifications";
+import { stripe } from "./stripe";
 
 type MarkPaidResult = "updated" | "already" | "missing";
 
@@ -59,6 +60,35 @@ export async function markOrderPaid(opts: {
   });
 
   return "updated";
+}
+
+/**
+ * Verify a Stripe Checkout Session directly with Stripe and mark its order paid
+ * if the session is paid. Used as a return-page safety net so payments confirm
+ * even when the webhook is delayed or (in local dev) not running. Idempotent.
+ */
+export async function reconcileStripeSession(
+  sessionId: string,
+): Promise<MarkPaidResult | "skip"> {
+  if (!stripe) return "skip";
+  try {
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    if (session.payment_status !== "paid") return "skip";
+    const orderId = session.metadata?.orderId;
+    if (!orderId) return "skip";
+    return await markOrderPaid({
+      orderId,
+      provider: "STRIPE",
+      stripeSessionId: session.id,
+      stripePaymentIntentId:
+        typeof session.payment_intent === "string"
+          ? session.payment_intent
+          : (session.payment_intent?.id ?? undefined),
+    });
+  } catch (err) {
+    console.error("[stripe] reconcile failed:", (err as Error).message);
+    return "skip";
+  }
 }
 
 /** Mark the most recent payment attempt for an order as failed. */

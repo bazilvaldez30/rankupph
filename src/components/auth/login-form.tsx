@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
@@ -16,8 +16,14 @@ import { GoogleButton } from "./google-button";
 export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
   const router = useRouter();
   const params = useSearchParams();
-  const callbackUrl = params.get("callbackUrl") ?? "/dashboard";
+  const callbackUrl = params.get("callbackUrl");
   const [serverError, setServerError] = useState<string | null>(null);
+
+  function roleHome(role?: string) {
+    if (role === "ADMIN") return "/admin";
+    if (role === "PROVIDER") return "/provider";
+    return "/dashboard";
+  }
 
   const {
     register,
@@ -35,7 +41,9 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
       setServerError("Invalid email or password.");
       return;
     }
-    router.push(callbackUrl);
+    // Land each role in its own workspace; honor an explicit callbackUrl.
+    const session = await getSession();
+    router.push(callbackUrl ?? roleHome(session?.user?.role));
     router.refresh();
   }
 
@@ -52,7 +60,7 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
 
       {googleEnabled && (
         <>
-          <GoogleButton callbackUrl={callbackUrl} label="Sign in with Google" />
+          <GoogleButton callbackUrl={callbackUrl ?? "/dashboard"} label="Sign in with Google" />
           <div className="my-6 flex items-center gap-4">
             <div className="h-px flex-1 bg-white/[0.07]" />
             <span className="text-xs uppercase tracking-widest text-muted-foreground">
