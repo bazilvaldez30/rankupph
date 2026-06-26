@@ -18,12 +18,27 @@ const fade = {
 export function Hero() {
   return (
     <section className="relative overflow-hidden pb-16 pt-24 sm:pt-32">
-      {/* Animated backdrop */}
-      <div className="pointer-events-none absolute inset-0 grid-backdrop" />
+      {/* Hero background art — blended into the luxury black/gold theme */}
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <img
+          src="/ru-hero-bg.png"
+          alt=""
+          aria-hidden
+          className="absolute inset-0 size-full scale-105 object-cover object-center"
+        />
+        {/* Darken for contrast, then fade the art into the page on every edge */}
+        <div className="absolute inset-0 bg-ink-900/45" />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink-900/70 via-transparent to-ink-900" />
+        <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-ink-900 to-transparent" />
+        <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-ink-900 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-b from-transparent to-ink-900" />
+        <div className="grid-backdrop absolute inset-0 opacity-20" />
+      </div>
+      {/* Ambient gold glow */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-[-10%] h-[36rem] w-[36rem] -translate-x-1/2 rounded-full bg-gold/10 blur-[150px]"
-        animate={{ opacity: [0.4, 0.7, 0.4] }}
+        className="pointer-events-none absolute left-1/2 top-[-10%] -z-10 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full bg-gold/10 blur-[150px]"
+        animate={{ opacity: [0.3, 0.55, 0.3] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
       />
 
