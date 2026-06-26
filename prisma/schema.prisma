@@ -88,6 +88,11 @@ enum NotificationType {
   GENERIC
 }
 
+enum VoucherType {
+  PERCENT // value = whole percent (1–100)
+  FIXED // value = centavos off
+}
+
 // ── Auth (NextAuth / Auth.js) ────────────────────────────────
 
 model User {
@@ -311,10 +316,11 @@ model Order {
   options       Json        @default("{}")
   breakdown     Json        @default("[]")
   estimatedDelivery String?
-  subtotal      Int // centavos
-  amount        Int // centavos — authoritative charge (server-computed)
+  subtotal      Int // centavos — pre-discount total
+  amount        Int // centavos — authoritative charge (server-computed, post-discount)
   currency      String      @default("PHP")
   customerNotes String?     @db.Text
+  voucherId     String?
 
   game     Game    @relation(fields: [gameId], references: [id])
   service  Service @relation(fields: [serviceId], references: [id])
@@ -323,6 +329,7 @@ model Order {
 
   currentRank Rank? @relation("OrderCurrentRank", fields: [currentRankId], references: [id])
   targetRank  Rank? @relation("OrderTargetRank", fields: [targetRankId], references: [id])
+  voucher     Voucher? @relation(fields: [voucherId], references: [id])
 
   payments        Payment[]
   chat            OrderChat?
@@ -523,4 +530,24 @@ model Notification {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, isRead])
+}
+
+model Voucher {
+  id             String      @id @default(cuid())
+  code           String      @unique // stored uppercase
+  description    String?
+  type           VoucherType
+  value          Int // PERCENT: 1–100 ; FIXED: centavos
+  active         Boolean     @default(true)
+  minSubtotal    Int? // centavos — minimum order to qualify
+  maxRedemptions Int? // null = unlimited (counts paid orders)
+  firstOrderOnly Boolean     @default(false)
+  expiresAt      DateTime?
+  createdById    String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  orders Order[]
+
+  @@index([active])
 }

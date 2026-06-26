@@ -9,6 +9,9 @@ import { useQuote } from "@/hooks/use-quote";
 import { CalculatorTabs } from "./calculator-tabs";
 import { ServiceConfigurator } from "./service-configurator";
 import { OrderSummary, type Progression, type SummaryLine } from "./order-summary";
+import { MobileCheckoutBar } from "./mobile-checkout-bar";
+import { FirstOrderBanner } from "@/components/marketing/first-order-banner";
+import { DEFAULT_OFFER, firstOrderDiscount, type FirstOrderOffer } from "@/lib/promo";
 
 const DUO_KEY = "DUO_QUEUE";
 
@@ -19,6 +22,7 @@ interface PricingCalculatorProps {
   initialSlug?: string;
   lockedSlug?: string;
   mode?: "full" | "preview";
+  offer?: FirstOrderOffer;
 }
 
 export function PricingCalculator({
@@ -28,6 +32,7 @@ export function PricingCalculator({
   initialSlug,
   lockedSlug,
   mode = "full",
+  offer = DEFAULT_OFFER,
 }: PricingCalculatorProps) {
   const router = useRouter();
   const visible = lockedSlug ? services.filter((s) => s.slug === lockedSlug) : services;
@@ -149,8 +154,14 @@ export function PricingCalculator({
 
   if (!activeService) return null;
 
+  const showOffer = Boolean(offer.active && offer.eligible);
+  const discount =
+    showOffer && quote?.valid ? firstOrderDiscount(quote.total) : 0;
+
   return (
     <div className="space-y-6">
+      {showOffer && <FirstOrderBanner offer={offer} />}
+
       {!lockedSlug && (
         <CalculatorTabs
           services={visible}
@@ -178,9 +189,26 @@ export function PricingCalculator({
             onCheckout={handleCheckout}
             submitting={submitting}
             error={error}
+            offer={offer}
           />
         </div>
       </div>
+
+      {/* Compact sticky checkout bar on mobile (full page only — the homepage
+          preview has its own sticky CTA). */}
+      {mode === "full" && (
+        <>
+          <div className="h-20 lg:hidden" aria-hidden />
+          <MobileCheckoutBar
+            valid={Boolean(quote?.valid)}
+            total={quote?.valid ? quote.total : 0}
+            discount={discount}
+            percent={offer.percent}
+            submitting={submitting}
+            onCheckout={handleCheckout}
+          />
+        </>
+      )}
     </div>
   );
 }

@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { PricingCalculator } from "@/components/calculator/pricing-calculator";
 import { getCalculatorBootstrap } from "@/lib/pricing-service";
+import { getFirstOrderOffer } from "@/lib/promo.server";
+import { getSiteRatingAggregate } from "@/lib/queries";
+import { FomoStrip } from "@/components/marketing/fomo-strip";
 import { CinematicBackdrop } from "@/components/cinematic/cinematic-backdrop";
-import { ShieldCheck, Sparkles, Wallet } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Dota 2 Boosting Price Calculator",
@@ -12,19 +14,17 @@ export const metadata: Metadata = {
   alternates: { canonical: "/pricing-calculator" },
 };
 
-const ASSURANCES = [
-  { icon: Wallet, text: "Transparent, configurable pricing" },
-  { icon: ShieldCheck, text: "Secure Stripe & GCash checkout" },
-  { icon: Sparkles, text: "Verified Immortal boosters" },
-];
-
 export default async function PricingCalculatorPage({
   searchParams,
 }: {
   searchParams: Promise<{ service?: string }>;
 }) {
   const { service } = await searchParams;
-  const { services, ranks, modifiers } = await getCalculatorBootstrap();
+  const [{ services, ranks, modifiers }, offer, rating] = await Promise.all([
+    getCalculatorBootstrap(),
+    getFirstOrderOffer(),
+    getSiteRatingAggregate(),
+  ]);
 
   return (
     <div className="relative overflow-hidden py-16 sm:py-24">
@@ -46,16 +46,13 @@ export default async function PricingCalculatorPage({
             ranks={ranks}
             modifiers={modifiers}
             initialSlug={service}
+            offer={offer}
           />
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-            {ASSURANCES.map((a) => (
-              <div key={a.text} className="flex items-center gap-2 text-sm text-muted-foreground">
-                <a.icon className="size-4 text-gold" />
-                {a.text}
-              </div>
-            ))}
-          </div>
+          <FomoStrip
+            className="mt-8"
+            data={{ rating: rating.count > 0 ? rating.average : null }}
+          />
         </div>
       </div>
     </div>

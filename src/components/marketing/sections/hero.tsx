@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Gift } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LiveActivity } from "@/components/marketing/live-activity";
+import { FIRST_ORDER, firstOrderActive } from "@/lib/promo";
 
 const fade = {
   hidden: { opacity: 0, y: 20 },
@@ -112,6 +113,23 @@ export function Hero() {
               <Link href="/services">Explore Services</Link>
             </Button>
           </motion.div>
+
+          {/* First-order offer — elegant, applied automatically at checkout */}
+          {firstOrderActive() && (
+            <motion.div
+              custom={4}
+              variants={fade}
+              initial="hidden"
+              animate="show"
+              className="mt-5 flex justify-center"
+            >
+              <span className="inline-flex items-center gap-2 rounded-full border border-gold/25 bg-gold/[0.07] px-4 py-2 text-sm font-medium text-gold">
+                <Gift className="size-4" />
+                First order: save {FIRST_ORDER.percent}% — applied automatically at
+                checkout
+              </span>
+            </motion.div>
+          )}
 
           {/* 🌍 Global trust badge — directly below the CTA */}
           <motion.div

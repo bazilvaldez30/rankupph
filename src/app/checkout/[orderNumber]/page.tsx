@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowDown, CheckCircle2, Clock, ShieldCheck } from "lucide-react";
+import { ArrowDown, CheckCircle2, Clock, ShieldCheck, Sparkles } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import { env, features } from "@/lib/env";
@@ -13,6 +13,8 @@ import { RankMedal } from "@/components/calculator/rank-medal";
 import { medalImageForMmr, medalNameForMmr, rankLabelForMmr } from "@/lib/rank-medals";
 import { StripeCheckoutButton } from "@/components/checkout/stripe-checkout-button";
 import { GCashPayment } from "@/components/checkout/gcash-payment";
+import { VoucherForm } from "@/components/checkout/voucher-form";
+import { TrustSignals } from "@/components/shared/trust-signals";
 import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
@@ -25,6 +27,7 @@ export const metadata: Metadata = {
 interface BreakdownLine {
   label: string;
   amount: number;
+  kind?: string;
 }
 
 export default async function CheckoutPage({
@@ -44,12 +47,17 @@ export default async function CheckoutPage({
       service: { select: { title: true } },
       currentRank: { select: { name: true, iconUrl: true } },
       targetRank: { select: { name: true, iconUrl: true } },
+      voucher: { select: { code: true } },
     },
   });
 
   if (!order || order.customerId !== user.id) notFound();
 
   const breakdown = (order.breakdown as unknown as BreakdownLine[]) ?? [];
+  const itemLines = breakdown.filter((l) => l.kind !== "discount");
+  const discountLines = breakdown.filter((l) => l.kind === "discount");
+  const discountTotal = discountLines.reduce((s, l) => s + Math.abs(l.amount), 0);
+  const subtotal = itemLines.reduce((s, l) => s + l.amount, 0);
   const alreadyPaid = order.status !== "PENDING_PAYMENT";
 
   return (
@@ -98,7 +106,7 @@ export default async function CheckoutPage({
 
           {/* Breakdown */}
           <div className="space-y-2 text-sm">
-            {breakdown.map((l, i) => (
+            {itemLines.map((l, i) => (
               <div key={i} className="flex justify-between text-muted-foreground">
                 <span>{l.label}</span>
                 <span className="tabular-nums">
@@ -107,6 +115,26 @@ export default async function CheckoutPage({
                 </span>
               </div>
             ))}
+
+            {discountTotal > 0 && (
+              <>
+                <div className="flex justify-between border-t border-white/[0.06] pt-2 text-foreground">
+                  <span>Subtotal</span>
+                  <Price centavos={subtotal} className="tabular-nums" />
+                </div>
+                {discountLines.map((l, i) => (
+                  <div
+                    key={`d${i}`}
+                    className="flex justify-between font-medium text-gold"
+                  >
+                    <span>{l.label}</span>
+                    <span className="tabular-nums">
+                      −<Price centavos={Math.abs(l.amount)} />
+                    </span>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
 
           <div className="mt-5 flex items-end justify-between border-t border-white/[0.06] pt-5">
@@ -131,6 +159,20 @@ export default async function CheckoutPage({
               </p>
             </div>
           </div>
+
+          {discountTotal > 0 && (
+            <div className="mt-4 flex items-center justify-center gap-2 rounded-2xl border border-gold/20 bg-gold/[0.06] px-4 py-2.5 text-sm font-medium text-gold">
+              <Sparkles className="size-4" />
+              You saved {formatCentavos(discountTotal)}
+              {order.voucher ? ` with ${order.voucher.code}` : " on your first order"}
+            </div>
+          )}
+
+          {!alreadyPaid && (
+            <div className="mt-5 border-t border-white/[0.06] pt-5">
+              <VoucherForm orderId={order.id} appliedCode={order.voucher?.code} />
+            </div>
+          )}
         </div>
       </div>
 
@@ -198,9 +240,12 @@ export default async function CheckoutPage({
                 </div>
               </div>
 
-              <div className="mt-6 flex items-center gap-2 border-t border-white/[0.06] pt-5 text-xs text-muted-foreground">
-                <ShieldCheck className="size-4 text-gold" />
-                Payments are encrypted. We never see your card details.
+              <div className="mt-6 border-t border-white/[0.06] pt-5">
+                <TrustSignals />
+                <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+                  <ShieldCheck className="size-4 text-gold" />
+                  Payments are encrypted. We never see your card details.
+                </div>
               </div>
             </>
           )}

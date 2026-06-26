@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import type { ServiceQuote } from "@/hooks/use-quote";
 import type { PublicRank, PublicService } from "@/lib/fallback-data";
+import { firstOrderDiscount, type FirstOrderOffer } from "@/lib/promo";
 import {
   medalImageForMmr,
   medalNameForMmr,
@@ -43,6 +44,7 @@ interface OrderSummaryProps {
   onCheckout: () => void;
   submitting: boolean;
   error: string | null;
+  offer?: FirstOrderOffer;
 }
 
 const TRUST = [
@@ -78,8 +80,12 @@ export function OrderSummary({
   onCheckout,
   submitting,
   error,
+  offer,
 }: OrderSummaryProps) {
   const invalid = quote && !quote.valid;
+  const applyDiscount = Boolean(offer?.active && offer?.eligible && quote?.valid);
+  const discount = applyDiscount ? firstOrderDiscount(quote!.total) : 0;
+  const finalTotal = quote?.valid ? quote.total - discount : 0;
 
   return (
     <div className="space-y-4">
@@ -148,6 +154,14 @@ export function OrderSummary({
                 </span>
               </div>
             ))}
+            {discount > 0 && (
+              <div className="flex justify-between border-t border-white/[0.06] pt-2 font-medium text-gold">
+                <span>First-order discount ({offer!.percent}%)</span>
+                <span className="tabular-nums">
+                  −<Price centavos={discount} />
+                </span>
+              </div>
+            )}
           </div>
         )}
 
@@ -183,17 +197,30 @@ export function OrderSummary({
                   {quote?.error}
                 </motion.span>
               ) : (
-                <motion.span
-                  key={quote?.total ?? "loading"}
+                <motion.div
+                  key={finalTotal || "loading"}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: loading ? 0.5 : 1, y: 0 }}
-                  className="font-display text-3xl font-bold tabular-nums text-white"
+                  className="text-right"
                 >
-                  {quote?.valid ? <Price centavos={quote.total} /> : "—"}
-                </motion.span>
+                  {discount > 0 && (
+                    <Price
+                      centavos={quote!.total}
+                      className="block text-sm font-medium text-muted-foreground line-through"
+                    />
+                  )}
+                  <span className="font-display text-3xl font-bold tabular-nums text-white">
+                    {quote?.valid ? <Price centavos={finalTotal} /> : "—"}
+                  </span>
+                </motion.div>
               )}
             </AnimatePresence>
           </div>
+          {discount > 0 && (
+            <p className="mt-3 flex items-center justify-center gap-1.5 rounded-xl bg-gold/[0.08] py-1.5 text-xs font-medium text-gold">
+              🎉 You save <Price centavos={discount} /> on your first order
+            </p>
+          )}
         </div>
 
         {error && (

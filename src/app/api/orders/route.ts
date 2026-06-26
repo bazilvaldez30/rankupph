@@ -5,6 +5,8 @@ import { computeQuoteForSlug } from "@/lib/pricing-service";
 import { rankFromMmr } from "@/lib/pricing";
 import { createOrderSchema } from "@/lib/validations/order";
 import { generateOrderNumber } from "@/lib/ids";
+import { FIRST_ORDER, firstOrderDiscount } from "@/lib/promo";
+import { isFirstOrderEligible } from "@/lib/promo.server";
 
 export const runtime = "nodejs";
 
@@ -54,6 +56,24 @@ export async function POST(req: Request) {
     const targetRankId =
       input.targetMmr != null ? (rankFromMmr(ranks, input.targetMmr)?.id ?? null) : null;
 
+    // Real first-order discount — only when this is genuinely the customer's
+    // first order. Computed server-side; the charged amount reflects it.
+    const eligible = await isFirstOrderEligible(user.id);
+    const discount = eligible ? firstOrderDiscount(quote.total) : 0;
+    const chargedAmount = Math.max(0, quote.total - discount);
+    const breakdownLines = [
+      ...quote.breakdown,
+      ...quote.optionsApplied,
+      ...quote.modifiersApplied,
+    ] as object[];
+    if (discount > 0) {
+      breakdownLines.push({
+        label: `First-order discount (${FIRST_ORDER.percent}%)`,
+        amount: -discount,
+        kind: "discount",
+      });
+    }
+
     let order;
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
@@ -71,13 +91,9 @@ export async function POST(req: Request) {
             quantity: input.quantity ?? null,
             modifiers: input.modifierKeys,
             options: input.optionSelections,
-            breakdown: [
-              ...quote.breakdown,
-              ...quote.optionsApplied,
-              ...quote.modifiersApplied,
-            ] as object[],
-            subtotal: quote.subtotal,
-            amount: quote.total,
+            breakdown: breakdownLines,
+            subtotal: quote.total,
+            amount: chargedAmount,
             currency: "PHP",
             estimatedDelivery: quote.estimatedDelivery,
             customerNotes: input.customerNotes ?? null,

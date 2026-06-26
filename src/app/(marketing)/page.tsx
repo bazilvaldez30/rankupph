@@ -7,7 +7,9 @@ import { ReviewsSection } from "@/components/marketing/sections/reviews";
 import { WhyChooseUs } from "@/components/marketing/sections/why-choose-us";
 import { Guarantees } from "@/components/marketing/sections/guarantees";
 import { FAQSection, FAQ_ITEMS } from "@/components/marketing/sections/faq";
+import { ReferralTeaser } from "@/components/marketing/sections/referral-teaser";
 import { FinalCTA } from "@/components/marketing/sections/final-cta";
+import { ExitIntent } from "@/components/marketing/exit-intent";
 import { getPublishedReviews, getServices, getSiteRatingAggregate } from "@/lib/queries";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
@@ -47,8 +49,10 @@ export default async function HomePage() {
       <ReviewsSection reviews={reviews} />
       <WhyChooseUs />
       <Guarantees />
+      <ReferralTeaser />
       <FAQSection />
       <FinalCTA />
+      <ExitIntent />
     </>
   );
 }
