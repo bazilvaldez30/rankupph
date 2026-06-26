@@ -65,17 +65,8 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
-  alternates: { canonical: env.appUrl },
-};
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: SITE.legalName,
-  url: env.appUrl,
-  description: SITE.description,
-  email: SITE.supportEmail,
-  sameAs: [`https://twitter.com/${SITE.twitter.replace("@", "")}`],
+  // Per-page canonicals are set in each route's metadata (Organization +
+  // sitewide JSON-LD live on the homepage).
 };
 
 export default function RootLayout({
@@ -84,10 +75,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${manrope.variable} dark`}>
       <body className="min-h-dvh antialiased">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -3,11 +3,15 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/shared/reveal";
 import { ServiceCard } from "@/components/marketing/service-card";
 import { getServices } from "@/lib/queries";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbSchema, serviceListSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Dota 2 Services",
+  title: "Dota 2 Services Worldwide — Boosting, Calibration, Ranked Wins",
   description:
-    "Explore RankUpPH's premium Dota 2 services: MMR boosting, duo queue boosting, and 1-on-1 coaching by verified Immortal players.",
+    "Explore RankUpPH's premium Dota 2 services: MMR boosting, calibration, ranked wins, Battle Cup, and low-priority removal by verified Immortal players. Available worldwide.",
+  alternates: { canonical: "/services" },
+  openGraph: { type: "website", url: "/services", title: "Dota 2 Services Worldwide · RankUpPH" },
 };
 
 export default async function ServicesPage() {
@@ -15,6 +19,15 @@ export default async function ServicesPage() {
 
   return (
     <div className="relative py-16 sm:py-24">
+      <JsonLd
+        data={[
+          serviceListSchema(services),
+          breadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Services", path: "/services" },
+          ]),
+        ]}
+      />
       <div className="container">
         <SectionHeading
           eyebrow="Services"

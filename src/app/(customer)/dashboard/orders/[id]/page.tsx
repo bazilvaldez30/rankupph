@@ -18,6 +18,7 @@ const INCLUDE = {
   customer: { select: { name: true, email: true } },
   progressUpdates: { orderBy: { createdAt: "desc" as const } },
   credential: { select: { id: true } },
+  review: { select: { id: true, isPublished: true } },
 } as const;
 
 export default async function CustomerOrderDetailPage({

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowDown, Clock } from "lucide-react";
+import { ArrowDown, Clock, Star } from "lucide-react";
 import type { Prisma } from "@prisma/client";
 import { OrderStatusBadge } from "@/components/shared/status-badge";
 import { OrderTimeline } from "@/components/orders/order-timeline";
@@ -10,6 +10,7 @@ import { medalImageForMmr, medalNameForMmr, rankLabelForMmr } from "@/lib/rank-m
 import { ProviderOrderActions } from "@/components/provider/provider-order-actions";
 import { ConfirmOrderButton } from "@/components/orders/confirm-order-button";
 import { CancelOrderButton } from "@/components/orders/cancel-order-button";
+import { ReviewForm } from "@/components/orders/review-form";
 import { Button } from "@/components/ui/button";
 import { formatDateTime } from "@/lib/format";
 import { Price } from "@/components/shared/price";
@@ -23,8 +24,11 @@ export type OrderDetailData = Prisma.OrderGetPayload<{
     customer: { select: { name: true; email: true } };
     progressUpdates: { orderBy: { createdAt: "desc" } };
     credential: { select: { id: true } };
+    review: { select: { id: true; isPublished: true } };
   };
 }>;
+
+const REVIEWABLE = ["COMPLETED", "CONFIRMED", "CLOSED"];
 
 interface BreakdownLine {
   label: string;
@@ -76,6 +80,31 @@ export function OrderDetail({
           <ConfirmOrderButton orderId={order.id} />
         )}
       </div>
+
+      {/* Verified review (customer, once the order is done) */}
+      {viewer === "customer" && REVIEWABLE.includes(order.status) && (
+        <section className="rounded-3xl border border-gold/15 bg-gold/[0.03] p-6">
+          <h2 className="font-display text-lg font-semibold text-white">
+            {order.review ? "Your review" : "How was your experience?"}
+          </h2>
+          {order.review ? (
+            <p className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
+              <Star className="size-4 fill-gold text-gold" />
+              Thanks for reviewing this order
+              {order.review.isPublished ? " — it's now published." : " — pending approval."}
+            </p>
+          ) : (
+            <>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Leave a verified review — it helps other players and only takes a moment.
+              </p>
+              <div className="mt-4">
+                <ReviewForm orderId={order.id} />
+              </div>
+            </>
+          )}
+        </section>
+      )}
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         {/* Left column */}

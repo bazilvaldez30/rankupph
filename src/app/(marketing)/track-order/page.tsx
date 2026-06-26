@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Track Your Order",
   description:
     "Track the status and progress of your RankUpPH order using your order number.",
+  alternates: { canonical: "/track-order" },
 };
 
 export default function TrackOrderPage() {

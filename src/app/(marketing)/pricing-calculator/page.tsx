@@ -5,9 +5,10 @@ import { getCalculatorBootstrap } from "@/lib/pricing-service";
 import { ShieldCheck, Sparkles, Wallet } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Pricing Calculator",
+  title: "Dota 2 Boosting Price Calculator",
   description:
-    "Calculate the exact cost of your Dota 2 MMR boost, calibration, ranked wins, Battle Cup, or low-priority removal. Transparent, configurable pricing.",
+    "Calculate the exact cost of your Dota 2 MMR boost, calibration, ranked wins, Battle Cup, or low-priority removal. Transparent, configurable pricing — worldwide.",
+  alternates: { canonical: "/pricing-calculator" },
 };
 
 const ASSURANCES = [

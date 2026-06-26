@@ -133,7 +133,39 @@ function toPublicReview(r: {
     isVerified: r.isVerified,
     authorName: r.customer.name ?? "Verified Customer",
     dateLabel: timeAgo(r.createdAt),
+    createdAt: r.createdAt.toISOString(),
   };
+}
+
+export interface RatingAggregate {
+  count: number;
+  average: number;
+}
+
+/** Real aggregate rating from APPROVED (published) reviews for one service. */
+export async function getServiceRatingAggregate(
+  serviceId: string,
+): Promise<RatingAggregate> {
+  return safe(async () => {
+    const res = await prisma.review.aggregate({
+      where: { serviceId, isPublished: true },
+      _avg: { rating: true },
+      _count: { _all: true },
+    });
+    return { count: res._count._all, average: res._avg.rating ?? 0 };
+  }, { count: 0, average: 0 });
+}
+
+/** Real aggregate rating across ALL approved reviews (sitewide). */
+export async function getSiteRatingAggregate(): Promise<RatingAggregate> {
+  return safe(async () => {
+    const res = await prisma.review.aggregate({
+      where: { isPublished: true },
+      _avg: { rating: true },
+      _count: { _all: true },
+    });
+    return { count: res._count._all, average: res._avg.rating ?? 0 };
+  }, { count: 0, average: 0 });
 }
 
 export async function getPublishedReviews(limit = 6): Promise<PublicReview[]> {

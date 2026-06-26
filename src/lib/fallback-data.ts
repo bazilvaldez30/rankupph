@@ -53,6 +53,7 @@ export interface PublicReview {
   isVerified: boolean;
   authorName: string;
   dateLabel: string;
+  createdAt: string; // ISO, for structured data (empty string if unknown)
 }
 
 export interface PublicRank {
@@ -99,5 +100,6 @@ export const FALLBACK_REVIEWS: PublicReview[] = REVIEWS_DATA.map((r, i) => ({
   isVerified: true,
   authorName: "Verified Customer",
   dateLabel: FALLBACK_DATE_LABELS[i % FALLBACK_DATE_LABELS.length]!,
+  createdAt: "",
 }));
 

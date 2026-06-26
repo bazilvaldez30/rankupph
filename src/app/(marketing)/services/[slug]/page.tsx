@@ -2,13 +2,19 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Check, Clock, ShieldCheck } from "lucide-react";
+import {
+  getServiceBySlug,
+  getServiceReviews,
+  getServiceRatingAggregate,
+} from "@/lib/queries";
 import { ReviewCard } from "@/components/marketing/review-card";
-import { getServiceBySlug, getServiceReviews } from "@/lib/queries";
 import { getCalculatorBootstrap } from "@/lib/pricing-service";
 import { SERVICE_CATEGORY_META } from "@/lib/constants";
 import { PricingCalculator } from "@/components/calculator/pricing-calculator";
 import { Reveal } from "@/components/shared/reveal";
 import { Badge } from "@/components/ui/badge";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbSchema, serviceSchema } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -18,10 +24,22 @@ export async function generateMetadata({
   const { slug } = await params;
   const service = await getServiceBySlug(slug);
   if (!service) return { title: "Service Not Found" };
+  const path = `/services/${service.slug}`;
   return {
     title: service.title,
     description: service.shortDescription,
-    openGraph: { title: service.title, description: service.shortDescription },
+    alternates: { canonical: path },
+    openGraph: {
+      type: "website",
+      url: path,
+      title: `${service.title} · RankUpPH`,
+      description: service.shortDescription,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${service.title} · RankUpPH`,
+      description: service.shortDescription,
+    },
   };
 }
 
@@ -34,15 +52,37 @@ export default async function ServiceDetailPage({
   const service = await getServiceBySlug(slug);
   if (!service) notFound();
 
-  const [{ ranks, modifiers }, reviews] = await Promise.all([
+  const [{ ranks, modifiers }, reviews, aggregate] = await Promise.all([
     getCalculatorBootstrap(),
-    getServiceReviews(service.id, 4),
+    getServiceReviews(service.id, 8),
+    getServiceRatingAggregate(service.id),
   ]);
 
   const meta = SERVICE_CATEGORY_META[service.category];
 
+  // Structured data — aggregateRating/review only from real approved reviews.
+  const serviceLd = serviceSchema({
+    title: service.title,
+    slug: service.slug,
+    shortDescription: service.shortDescription,
+    basePrice: service.basePrice,
+    aggregate,
+    reviews: reviews.map((r) => ({
+      rating: r.rating,
+      authorName: r.authorName,
+      comment: r.comment,
+      createdAt: r.createdAt,
+    })),
+  });
+  const breadcrumbLd = breadcrumbSchema([
+    { name: "Home", path: "/" },
+    { name: "Services", path: "/services" },
+    { name: service.title, path: `/services/${service.slug}` },
+  ]);
+
   return (
     <div className="relative py-12 sm:py-16">
+      <JsonLd data={[serviceLd, breadcrumbLd]} />
       <div className="container">
         <Link
           href="/services"
