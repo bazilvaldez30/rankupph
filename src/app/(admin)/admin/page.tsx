@@ -94,6 +94,9 @@ export default async function AdminPage() {
             <Link href="/admin/payments">Payments</Link>
           </Button>
           <Button asChild variant="secondary" size="sm">
+            <Link href="/admin/users">Users</Link>
+          </Button>
+          <Button asChild variant="secondary" size="sm">
             <Link href="/admin/boosters">Boosters</Link>
           </Button>
           <Button asChild variant="secondary" size="sm">
