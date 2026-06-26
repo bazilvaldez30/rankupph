@@ -51,7 +51,7 @@ export default async function AdminOrdersPage() {
         </p>
       ) : (
         <div className="mt-8 overflow-x-auto rounded-2xl border border-white/[0.06]">
-          <table className="w-full min-w-[820px] text-sm">
+          <table className="w-full min-w-[900px] text-sm">
             <thead className="bg-white/[0.02] text-left text-xs uppercase tracking-wider text-muted-foreground">
               <tr>
                 <th className="px-5 py-3 font-medium">Order</th>
@@ -60,13 +60,19 @@ export default async function AdminOrdersPage() {
                 <th className="px-5 py-3 font-medium">Total</th>
                 <th className="px-5 py-3 font-medium">Status</th>
                 <th className="px-5 py-3 font-medium">Booster</th>
+                <th className="px-5 py-3" />
               </tr>
             </thead>
             <tbody className="divide-y divide-white/[0.05]">
               {orders.map((o) => (
                 <tr key={o.id}>
                   <td className="px-5 py-4">
-                    <div className="font-medium text-white">{o.orderNumber}</div>
+                    <Link
+                      href={`/admin/orders/${o.id}`}
+                      className="font-medium text-white transition-colors hover:text-gold"
+                    >
+                      {o.orderNumber}
+                    </Link>
                     <div className="text-xs text-muted-foreground">
                       {formatDate(o.createdAt)}
                     </div>
@@ -86,6 +92,14 @@ export default async function AdminOrdersPage() {
                       currentBoosterId={o.boosterId}
                       assignable={["PAID", "ASSIGNED"].includes(o.status)}
                     />
+                  </td>
+                  <td className="px-5 py-4 text-right">
+                    <Link
+                      href={`/admin/orders/${o.id}`}
+                      className="inline-flex items-center gap-1 whitespace-nowrap text-sm font-medium text-gold transition-colors hover:text-gold/80"
+                    >
+                      View
+                    </Link>
                   </td>
                 </tr>
               ))}

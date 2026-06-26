@@ -34,9 +34,11 @@ async function loadStats() {
         }),
         prisma.order.count({ where: { status: "PAID", boosterId: null } }),
         prisma.order.count({ where: { status: { in: ["CONFIRMED", "CLOSED"] } } }),
+        // Order by last activity (updatedAt) so newly assigned / in-progress
+        // orders surface here, not just the most recently created ones.
         prisma.order.findMany({
-          orderBy: { createdAt: "desc" },
-          take: 8,
+          orderBy: { updatedAt: "desc" },
+          take: 10,
           include: {
             service: { select: { title: true } },
             customer: { select: { name: true, email: true } },
@@ -179,9 +181,14 @@ export default async function AdminPage() {
             </thead>
             <tbody className="divide-y divide-white/[0.05]">
               {stats.recent.map((o) => (
-                <tr key={o.id}>
-                  <td className="px-5 py-4 font-medium text-white">
-                    {o.orderNumber}
+                <tr key={o.id} className="transition-colors hover:bg-white/[0.02]">
+                  <td className="px-5 py-4 font-medium">
+                    <Link
+                      href={`/admin/orders/${o.id}`}
+                      className="text-white transition-colors hover:text-gold"
+                    >
+                      {o.orderNumber}
+                    </Link>
                   </td>
                   <td className="hidden px-5 py-4 text-muted-foreground sm:table-cell">
                     {o.customer.name ?? o.customer.email}
