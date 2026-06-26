@@ -2,11 +2,13 @@ import Link from "next/link";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { Reveal } from "@/components/shared/reveal";
 import { Button } from "@/components/ui/button";
+import { CinematicBackdrop } from "@/components/cinematic/cinematic-backdrop";
 
 export function FinalCTA() {
   return (
     <section className="relative overflow-hidden py-24 sm:py-32">
-      <div className="container">
+      <CinematicBackdrop image="/ruines-2.png" opacity={0.08} glow="center" />
+      <div className="container relative">
         <Reveal>
           <div className="relative overflow-hidden rounded-[2rem] border border-gold/20 bg-gradient-to-b from-ink-700 to-ink-900 px-6 py-16 text-center sm:px-16 sm:py-24">
             <div className="pointer-events-none absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-gold/15 blur-[120px]" />

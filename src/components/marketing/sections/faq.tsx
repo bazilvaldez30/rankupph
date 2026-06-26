@@ -1,5 +1,6 @@
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/shared/reveal";
+import { CinematicBackdrop } from "@/components/cinematic/cinematic-backdrop";
 import {
   Accordion,
   AccordionContent,
@@ -36,8 +37,9 @@ export const FAQ_ITEMS = [
 
 export function FAQSection() {
   return (
-    <section id="faq" className="relative py-24 sm:py-32">
-      <div className="container">
+    <section id="faq" className="relative overflow-hidden py-24 sm:py-32">
+      <CinematicBackdrop image="/ancient-ruines.png" opacity={0.07} glow="bottom" />
+      <div className="container relative">
         <SectionHeading
           eyebrow="FAQ"
           title={

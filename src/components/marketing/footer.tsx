@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/shared/logo";
 import { SITE } from "@/lib/constants";
+import { CinematicBackdrop } from "@/components/cinematic/cinematic-backdrop";
 
 const COLUMNS = [
   {
@@ -34,8 +35,9 @@ const COLUMNS = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/[0.06] bg-ink-800/40">
-      <div className="container py-16">
+    <footer className="relative overflow-hidden border-t border-white/[0.06] bg-ink-800/40">
+      <CinematicBackdrop image="/ancient-ruines.png" opacity={0.06} glow="none" objectPosition="bottom" />
+      <div className="container relative py-16">
         <div className="grid gap-12 lg:grid-cols-[1.5fr_2fr]">
           <div className="space-y-4">
             <Logo />

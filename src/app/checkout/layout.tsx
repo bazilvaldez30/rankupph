@@ -1,5 +1,6 @@
 import { Lock } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
+import { CinematicBackdrop } from "@/components/cinematic/cinematic-backdrop";
 
 export default function CheckoutLayout({
   children,
@@ -7,7 +8,8 @@ export default function CheckoutLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative min-h-dvh">
+    <div className="relative min-h-dvh overflow-hidden">
+      <CinematicBackdrop image="/ruines-2.png" opacity={0.07} glow="top" />
       <div className="pointer-events-none absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-gold/[0.06] blur-[130px]" />
       <header className="relative z-10 flex items-center justify-between border-b border-white/[0.06] px-6 py-5 sm:px-10">
         <Logo />

@@ -34,12 +34,14 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-b from-transparent to-ink-900" />
         <div className="grid-backdrop absolute inset-0 opacity-20" />
       </div>
-      {/* Ambient gold glow */}
-      <motion.div
+      {/* Ambient gold lighting (static gradient — no animation, no blur) */}
+      <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-[-10%] -z-10 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full bg-gold/10 blur-[150px]"
-        animate={{ opacity: [0.3, 0.55, 0.3] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(45% 35% at 50% 0%, rgba(212,175,55,0.10), transparent 70%)",
+        }}
       />
 
       <div className="container relative">

@@ -1,6 +1,7 @@
 import { BadgeCheck, CreditCard, RefreshCcw, ShieldCheck } from "lucide-react";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/shared/reveal";
+import { CinematicBackdrop } from "@/components/cinematic/cinematic-backdrop";
 
 const GUARANTEES = [
   {
@@ -31,8 +32,9 @@ const GUARANTEES = [
 
 export function Guarantees() {
   return (
-    <section className="relative py-24 sm:py-32">
-      <div className="container">
+    <section className="relative overflow-hidden py-24 sm:py-32">
+      <CinematicBackdrop image="/aegis.png" opacity={0.08} glow="top" />
+      <div className="container relative">
         <SectionHeading
           eyebrow="Our Promise"
           title={

@@ -15,6 +15,17 @@ import { Reveal } from "@/components/shared/reveal";
 import { Badge } from "@/components/ui/badge";
 import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbSchema, serviceSchema } from "@/lib/seo";
+import { CinematicBackdrop } from "@/components/cinematic/cinematic-backdrop";
+
+// Subtle, category-flavoured backdrop art (safe fallback for any category).
+const DETAIL_BG: Record<string, string> = {
+  MMR_BOOST: "/battlefield.png",
+  CALIBRATION: "/jungle.png",
+  RANKED_WINS: "/ruines-2.png",
+  BATTLE_CUP: "/battlefield.png",
+  LOW_PRIORITY: "/ancient-ruines.png",
+  COACHING: "/aegis.png",
+};
 
 export async function generateMetadata({
   params,
@@ -81,9 +92,14 @@ export default async function ServiceDetailPage({
   ]);
 
   return (
-    <div className="relative py-12 sm:py-16">
+    <div className="relative overflow-hidden py-12 sm:py-16">
+      <CinematicBackdrop
+        image={DETAIL_BG[service.category] ?? "/ancient-ruines.png"}
+        opacity={0.07}
+        glow="top"
+      />
       <JsonLd data={[serviceLd, breadcrumbLd]} />
-      <div className="container">
+      <div className="container relative">
         <Link
           href="/services"
           className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"

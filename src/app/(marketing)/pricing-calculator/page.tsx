@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { PricingCalculator } from "@/components/calculator/pricing-calculator";
 import { getCalculatorBootstrap } from "@/lib/pricing-service";
+import { CinematicBackdrop } from "@/components/cinematic/cinematic-backdrop";
 import { ShieldCheck, Sparkles, Wallet } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -26,8 +27,8 @@ export default async function PricingCalculatorPage({
   const { services, ranks, modifiers } = await getCalculatorBootstrap();
 
   return (
-    <div className="relative py-16 sm:py-24">
-      <div className="pointer-events-none absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-gold/[0.07] blur-[130px]" />
+    <div className="relative overflow-hidden py-16 sm:py-24">
+      <CinematicBackdrop image="/jungle.png" opacity={0.08} glow="top" />
       <div className="container relative">
         <SectionHeading
           eyebrow="Pricing Calculator"

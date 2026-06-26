@@ -5,6 +5,7 @@ import { ServiceCard } from "@/components/marketing/service-card";
 import { getServices } from "@/lib/queries";
 import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbSchema, serviceListSchema } from "@/lib/seo";
+import { CinematicBackdrop } from "@/components/cinematic/cinematic-backdrop";
 
 export const metadata: Metadata = {
   title: "Dota 2 Services Worldwide — Boosting, Calibration, Ranked Wins",
@@ -18,7 +19,8 @@ export default async function ServicesPage() {
   const services = await getServices();
 
   return (
-    <div className="relative py-16 sm:py-24">
+    <div className="relative overflow-hidden py-16 sm:py-24">
+      <CinematicBackdrop image="/battlefield.png" opacity={0.08} glow="top" />
       <JsonLd
         data={[
           serviceListSchema(services),
@@ -28,7 +30,7 @@ export default async function ServicesPage() {
           ]),
         ]}
       />
-      <div className="container">
+      <div className="container relative">
         <SectionHeading
           eyebrow="Services"
           title={

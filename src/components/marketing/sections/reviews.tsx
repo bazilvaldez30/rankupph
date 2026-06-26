@@ -2,6 +2,7 @@ import { Star } from "lucide-react";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/shared/reveal";
 import { ReviewCard } from "@/components/marketing/review-card";
+import { CinematicBackdrop } from "@/components/cinematic/cinematic-backdrop";
 import type { PublicReview } from "@/lib/fallback-data";
 
 export function ReviewsSection({ reviews }: { reviews: PublicReview[] }) {
@@ -11,8 +12,9 @@ export function ReviewsSection({ reviews }: { reviews: PublicReview[] }) {
       : 5;
 
   return (
-    <section id="reviews" className="relative py-24 sm:py-32">
-      <div className="container">
+    <section id="reviews" className="relative overflow-hidden py-24 sm:py-32">
+      <CinematicBackdrop image="/jungle.png" opacity={0.08} glow="center" />
+      <div className="container relative">
         <SectionHeading
           eyebrow="Reviews"
           title={
