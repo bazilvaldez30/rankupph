@@ -1,4 +1,4 @@
-import { Headphones, Lock, Trophy, Zap } from "lucide-react";
+import { EyeOff, Headphones, ShieldCheck, Trophy, Wifi, Zap } from "lucide-react";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/shared/reveal";
 
@@ -10,16 +10,28 @@ const REASONS = [
       "Every booster is a verified Immortal with a proven track record. We vet skill, reliability, and discretion before anyone touches an account.",
   },
   {
-    icon: Lock,
-    title: "Secure Process",
+    icon: Wifi,
+    title: "Automated VPN Protection",
     description:
-      "VPN protection, offline mode, and encrypted handling keep your account safe. We never store credentials longer than a job requires.",
+      "Every session runs through a region-matched VPN, keeping your login pattern clean and your account shielded the entire time.",
+  },
+  {
+    icon: EyeOff,
+    title: "Strict Offline Mode",
+    description:
+      "Boosters play in offline / invisible mode, so your activity stays hidden from friends, clubs, and recent teammates.",
   },
   {
     icon: Zap,
     title: "Fast Delivery",
     description:
       "Most orders start within hours. Need it faster? Priority delivery moves you to the front of the queue.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Secure & Encrypted",
+    description:
+      "Credentials are encrypted at rest and access is audit-logged. Or pick Duo Queue and never share your account at all.",
   },
   {
     icon: Headphones,

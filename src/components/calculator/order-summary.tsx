@@ -19,6 +19,7 @@ import {
   rankLabelForMmr,
 } from "@/lib/rank-medals";
 import { Price } from "@/components/shared/price";
+import { PurchaseProtection } from "@/components/shared/purchase-protection";
 import { Button } from "@/components/ui/button";
 import { RankMedal } from "./rank-medal";
 
@@ -81,7 +82,8 @@ export function OrderSummary({
   const invalid = quote && !quote.valid;
 
   return (
-    <div className="glass overflow-hidden rounded-3xl">
+    <div className="space-y-4">
+      <div className="glass overflow-hidden rounded-3xl">
       <div className="border-b border-white/[0.06] px-6 py-5">
         <h3 className="font-display text-lg font-semibold text-white">Order Summary</h3>
         <p className="mt-0.5 text-sm text-muted-foreground">{service.title}</p>
@@ -220,6 +222,9 @@ export function OrderSummary({
           ))}
         </div>
       </div>
+      </div>
+
+      <PurchaseProtection />
     </div>
   );
 }

@@ -3,7 +3,6 @@ import { Hero } from "@/components/marketing/sections/hero";
 import { GlobalTrust } from "@/components/marketing/sections/global-trust";
 import { ServicesSection } from "@/components/marketing/sections/services";
 import { HowItWorks } from "@/components/marketing/sections/how-it-works";
-import { RegionCoverage } from "@/components/marketing/sections/region-coverage";
 import { CalculatorPreview } from "@/components/marketing/sections/calculator-preview";
 import { ReviewsSection } from "@/components/marketing/sections/reviews";
 import { WhyChooseUs } from "@/components/marketing/sections/why-choose-us";
@@ -62,7 +61,6 @@ export default async function HomePage() {
       <GlobalTrust />
       <ServicesSection services={services} />
       <HowItWorks />
-      <RegionCoverage />
       <CalculatorPreview />
       <ReviewsSection reviews={reviews} />
       <WhyChooseUs />
