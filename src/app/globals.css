@@ -48,6 +48,8 @@
   }
   body {
     @apply bg-background text-foreground font-sans;
+    /* Global guard: never allow horizontal scroll from stray overflow. */
+    overflow-x: hidden;
     background-image:
       radial-gradient(
         70% 50% at 50% -10%,
@@ -96,6 +98,14 @@
   }
   .container-px {
     @apply px-6 sm:px-8;
+  }
+  /* Hide scrollbars on mobile carousels (snap scrolling stays). */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
   /* Subtle animated grid backdrop for hero */
   .grid-backdrop {

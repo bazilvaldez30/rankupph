@@ -45,7 +45,7 @@ export function WhyChooseUs() {
   return (
     <section
       id="why"
-      className="relative border-y border-white/[0.06] bg-ink-800/30 py-24 sm:py-32"
+      className="relative border-y border-white/[0.06] bg-ink-800/30 py-20 sm:py-28 lg:py-32"
     >
       <div className="container">
         <SectionHeading
@@ -62,10 +62,10 @@ export function WhyChooseUs() {
           className="max-w-2xl"
         />
 
-        <div className="mt-14 grid gap-6 sm:grid-cols-2">
+        <div className="mt-12 grid gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-6">
           {REASONS.map((r, i) => (
-            <Reveal key={r.title} delay={i % 2}>
-              <div className="flex gap-5 rounded-3xl border border-white/[0.06] bg-white/[0.02] p-7">
+            <Reveal key={r.title} delay={i % 2} className="h-full">
+              <div className="flex h-full gap-4 rounded-3xl border border-white/[0.06] bg-white/[0.02] p-6 sm:gap-5 sm:p-7">
                 <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl border border-gold/20 bg-gold/[0.06] text-gold">
                   <r.icon className="size-6" />
                 </span>

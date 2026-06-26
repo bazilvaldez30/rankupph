@@ -13,7 +13,7 @@ export default function AuthLayout({
       <div className="pointer-events-none absolute inset-0 grid-backdrop opacity-40" />
       <div className="pointer-events-none absolute left-1/2 top-0 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-gold/10 blur-[140px]" />
 
-      <header className="relative z-10 flex items-center justify-between px-6 py-6 sm:px-10">
+      <header className="relative z-10 flex items-center justify-between px-5 py-5 sm:px-10 sm:py-6">
         <Logo />
         <Link
           href="/"
@@ -24,7 +24,7 @@ export default function AuthLayout({
         </Link>
       </header>
 
-      <main className="relative z-10 flex min-h-[calc(100dvh-5.5rem)] items-center justify-center px-6 py-10">
+      <main className="relative z-10 flex min-h-[calc(100dvh-5.5rem)] items-center justify-center px-4 py-8 sm:px-6 sm:py-10">
         <div className="w-full max-w-md">{children}</div>
       </main>
     </div>

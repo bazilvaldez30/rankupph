@@ -53,7 +53,7 @@ export default async function CheckoutPage({
   const alreadyPaid = order.status !== "PENDING_PAYMENT";
 
   return (
-    <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[1.1fr_1fr]">
+    <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-[1.1fr_1fr]">
       {/* Order summary */}
       <div>
         <h1 className="font-display text-3xl font-bold tracking-tight text-white">

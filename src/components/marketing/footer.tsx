@@ -38,7 +38,7 @@ export function Footer() {
     <footer className="relative overflow-hidden border-t border-white/[0.06] bg-ink-800/40">
       <CinematicBackdrop image="/ancient-ruines.png" opacity={0.06} glow="none" objectPosition="bottom" />
       <div className="container relative py-16">
-        <div className="grid gap-12 lg:grid-cols-[1.5fr_2fr]">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.5fr_2fr] lg:gap-12">
           <div className="space-y-4">
             <Logo />
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">

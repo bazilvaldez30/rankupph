@@ -37,7 +37,7 @@ export const FAQ_ITEMS = [
 
 export function FAQSection() {
   return (
-    <section id="faq" className="relative overflow-hidden py-24 sm:py-32">
+    <section id="faq" className="relative overflow-hidden py-20 sm:py-28 lg:py-32">
       <CinematicBackdrop image="/ancient-ruines.png" opacity={0.07} glow="bottom" />
       <div className="container relative">
         <SectionHeading

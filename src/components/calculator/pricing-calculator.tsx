@@ -159,8 +159,8 @@ export function PricingCalculator({
         />
       )}
 
-      <div className="grid gap-6 lg:grid-cols-[1.25fr_1fr]">
-        <div className="glass rounded-3xl p-6 sm:p-8">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.25fr_1fr]">
+        <div className="min-w-0 glass rounded-3xl p-5 sm:p-8">
           <ServiceConfigurator
             service={activeService}
             ranks={ranks}
@@ -168,7 +168,7 @@ export function PricingCalculator({
           />
         </div>
 
-        <div className="lg:sticky lg:top-24 lg:self-start">
+        <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
           <OrderSummary
             service={activeService}
             quote={quote}

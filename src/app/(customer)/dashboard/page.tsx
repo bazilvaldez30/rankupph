@@ -75,8 +75,8 @@ export default async function DashboardPage() {
           </Button>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-white/[0.06]">
-          <table className="w-full text-sm">
+        <div className="overflow-x-auto rounded-2xl border border-white/[0.06]">
+          <table className="w-full min-w-[600px] text-sm">
             <thead className="bg-white/[0.02] text-left text-xs uppercase tracking-wider text-muted-foreground">
               <tr>
                 <th className="px-5 py-3 font-medium">Order</th>

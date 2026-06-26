@@ -106,7 +106,7 @@ export default async function ProviderPage() {
         ))}
       </div>
 
-      <div className="mb-10 grid gap-4 lg:grid-cols-[1fr_1.4fr]">
+      <div className="mb-10 grid grid-cols-1 gap-4 lg:grid-cols-[1fr_1.4fr]">
         <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5">
           <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-muted-foreground">
             <Clock className="size-4 text-gold" /> Avg. completion time
@@ -157,9 +157,9 @@ export default async function ProviderPage() {
             {available.map((o) => (
               <div
                 key={o.id}
-                className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gold/15 bg-gold/[0.03] p-5"
+                className="flex flex-col gap-4 rounded-2xl border border-gold/15 bg-gold/[0.03] p-5 sm:flex-row sm:items-center sm:justify-between"
               >
-                <div>
+                <div className="min-w-0">
                   <div className="font-display text-base font-semibold text-white">
                     {o.orderNumber}
                   </div>
@@ -178,7 +178,9 @@ export default async function ProviderPage() {
                     Payout {formatCentavos(o.amount)}
                   </p>
                 </div>
-                <ClaimOrderButton orderId={o.id} />
+                <div className="shrink-0">
+                  <ClaimOrderButton orderId={o.id} />
+                </div>
               </div>
             ))}
           </div>

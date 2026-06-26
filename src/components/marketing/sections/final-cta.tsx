@@ -6,7 +6,7 @@ import { CinematicBackdrop } from "@/components/cinematic/cinematic-backdrop";
 
 export function FinalCTA() {
   return (
-    <section className="relative overflow-hidden py-24 sm:py-32">
+    <section className="relative overflow-hidden py-20 sm:py-28 lg:py-32">
       <CinematicBackdrop image="/ruines-2.png" opacity={0.08} glow="center" />
       <div className="container relative">
         <Reveal>

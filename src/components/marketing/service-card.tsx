@@ -22,7 +22,7 @@ export function ServiceCard({ service }: { service: PublicService }) {
   return (
     <Link
       href={`/services/${service.slug}`}
-      className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] p-7 transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-gold"
+      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-gold sm:p-7"
     >
       <div className="pointer-events-none absolute -right-16 -top-16 size-40 rounded-full bg-gold/10 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
 

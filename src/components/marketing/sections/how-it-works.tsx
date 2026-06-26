@@ -25,7 +25,7 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section className="relative border-y border-white/[0.06] bg-ink-800/30 py-24 sm:py-32">
+    <section className="relative border-y border-white/[0.06] bg-ink-800/30 py-20 sm:py-28 lg:py-32">
       <div className="container">
         <SectionHeading
           eyebrow="How It Works"
@@ -37,7 +37,7 @@ export function HowItWorks() {
           description="A frictionless, transparent process designed so you always know exactly what's happening with your climb."
         />
 
-        <div className="relative mt-16 grid gap-8 md:grid-cols-3">
+        <div className="relative mt-12 grid gap-10 sm:mt-16 sm:gap-8 md:grid-cols-3">
           {/* connecting line */}
           <div className="pointer-events-none absolute left-0 right-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent md:block" />
 

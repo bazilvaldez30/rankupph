@@ -8,7 +8,7 @@ export async function CalculatorPreview() {
   const { services, ranks, modifiers } = await getCalculatorBootstrap();
 
   return (
-    <section className="relative overflow-hidden py-24 sm:py-32">
+    <section className="relative overflow-hidden py-20 sm:py-28 lg:py-32">
       <CinematicBackdrop image="/battlefield.png" opacity={0.09} glow="top" />
       <div className="container relative">
         <SectionHeading

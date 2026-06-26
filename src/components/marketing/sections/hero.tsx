@@ -51,13 +51,18 @@ export function Hero() {
             variants={fade}
             initial="hidden"
             animate="show"
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/[0.06] px-4 py-1.5 text-xs font-medium text-gold"
+            className="mb-6 inline-flex max-w-full items-center gap-2 rounded-full border border-gold/20 bg-gold/[0.06] px-3.5 py-1.5 text-[11px] font-medium text-gold sm:px-4 sm:text-xs"
           >
-            <span className="relative flex size-2">
+            <span className="relative flex size-2 shrink-0">
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-gold/60" />
               <span className="relative inline-flex size-2 rounded-full bg-gold" />
             </span>
-            Premium Dota 2 boosting — now serving players worldwide
+            <span className="truncate sm:hidden">
+              Premium Dota 2 boosting · worldwide
+            </span>
+            <span className="hidden sm:inline">
+              Premium Dota 2 boosting — now serving players worldwide
+            </span>
           </motion.div>
 
           <motion.h1

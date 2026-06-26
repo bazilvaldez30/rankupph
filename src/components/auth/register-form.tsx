@@ -54,7 +54,7 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
   }
 
   return (
-    <div className="glass rounded-3xl p-8 sm:p-10">
+    <div className="glass rounded-3xl p-6 sm:p-10">
       <div className="mb-8 space-y-2">
         <h1 className="font-display text-2xl font-semibold tracking-tight text-white">
           Create your account

@@ -33,8 +33,8 @@ const STATS: Stat[] = [
 
 export function GlobalTrust() {
   return (
-    <section className="relative border-y border-white/[0.06] bg-ink-800/30 py-20 sm:py-24">
-      <div className="pointer-events-none absolute left-1/2 top-0 h-64 w-[40rem] -translate-x-1/2 rounded-full bg-gold/[0.05] blur-[130px]" />
+    <section className="relative overflow-hidden border-y border-white/[0.06] bg-ink-800/30 py-16 sm:py-24">
+      <div className="pointer-events-none absolute left-1/2 top-0 h-64 w-[40rem] max-w-full -translate-x-1/2 rounded-full bg-gold/[0.05] blur-[130px]" />
       <div className="container relative">
         {/* Premium trust strip */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">

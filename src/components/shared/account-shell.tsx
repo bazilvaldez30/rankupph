@@ -46,7 +46,7 @@ export function AccountShell({
           </div>
         </div>
       </header>
-      <main className="container py-10">{children}</main>
+      <main className="container py-8 sm:py-10">{children}</main>
     </div>
   );
 }

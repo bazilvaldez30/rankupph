@@ -108,7 +108,7 @@ export default async function ServiceDetailPage({
           All services
         </Link>
 
-        <div className="mt-8 grid gap-12 lg:grid-cols-[1.1fr_1fr]">
+        <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
           {/* Left: details */}
           <div>
             <Reveal>

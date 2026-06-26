@@ -106,9 +106,9 @@ export function OrderDetail({
         </section>
       )}
 
-      <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.4fr_1fr]">
         {/* Left column */}
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           {/* Order info */}
           <section className="rounded-3xl border border-white/[0.06] bg-white/[0.02] p-6">
             <h2 className="mb-4 font-display text-lg font-semibold text-white">
@@ -189,7 +189,7 @@ export function OrderDetail({
         </div>
 
         {/* Right column — credentials */}
-        <div className="lg:sticky lg:top-24 lg:self-start">
+        <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
           <section className="rounded-3xl border border-white/[0.06] bg-white/[0.02] p-6">
             <h2 className="mb-4 font-display text-lg font-semibold text-white">
               Account access

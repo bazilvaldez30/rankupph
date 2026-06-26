@@ -7,9 +7,9 @@ export default function OrdersFlowLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative min-h-dvh">
-      <div className="pointer-events-none absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-gold/[0.06] blur-[130px]" />
-      <header className="relative z-10 flex items-center justify-between border-b border-white/[0.06] px-6 py-5 sm:px-10">
+    <div className="relative min-h-dvh overflow-hidden">
+      <div className="pointer-events-none absolute left-1/2 top-0 h-80 w-80 max-w-full -translate-x-1/2 rounded-full bg-gold/[0.06] blur-[130px]" />
+      <header className="relative z-10 flex items-center justify-between border-b border-white/[0.06] px-5 py-4 sm:px-10 sm:py-5">
         <Logo />
         <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
           <Lock className="size-3.5 text-gold" />

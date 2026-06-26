@@ -2,6 +2,7 @@ import { Star } from "lucide-react";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/shared/reveal";
 import { ReviewCard } from "@/components/marketing/review-card";
+import { Carousel } from "@/components/shared/carousel";
 import { CinematicBackdrop } from "@/components/cinematic/cinematic-backdrop";
 import type { PublicReview } from "@/lib/fallback-data";
 
@@ -12,7 +13,7 @@ export function ReviewsSection({ reviews }: { reviews: PublicReview[] }) {
       : 5;
 
   return (
-    <section id="reviews" className="relative overflow-hidden py-24 sm:py-32">
+    <section id="reviews" className="relative overflow-hidden py-20 sm:py-28 lg:py-32">
       <CinematicBackdrop image="/jungle.png" opacity={0.08} glow="center" />
       <div className="container relative">
         <SectionHeading
@@ -39,13 +40,13 @@ export function ReviewsSection({ reviews }: { reviews: PublicReview[] }) {
           </span>
         </Reveal>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Carousel className="mt-12" desktopClassName="md:grid-cols-2 lg:grid-cols-3">
           {reviews.map((review, i) => (
-            <Reveal key={review.id} delay={i % 3}>
+            <Reveal key={review.id} delay={i % 3} className="h-full">
               <ReviewCard review={review} />
             </Reveal>
           ))}
-        </div>
+        </Carousel>
       </div>
     </section>
   );
