@@ -27,7 +27,7 @@ export function MobileStickyCTA() {
       {firstOrderActive() && (
         <p className="mb-2 flex items-center justify-center gap-1.5 text-xs font-medium text-gold">
           <Gift className="size-3.5" />
-          First order: save {FIRST_ORDER.percent}% — applied at checkout
+          {t("hero.offerPre")} {FIRST_ORDER.percent}% {t("hero.offerSuf")}
         </p>
       )}
       <Button asChild size="lg" className="w-full">

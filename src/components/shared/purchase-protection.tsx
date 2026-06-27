@@ -10,31 +10,17 @@ import {
   ShieldCheck,
   Undo2,
 } from "lucide-react";
+import { useT } from "@/hooks/use-translation";
 
 const ITEMS = [
-  {
-    icon: Lock,
-    title: "Your account stays private",
-    desc: "Boosters play through a region-matched VPN in offline mode — invisible to your friends, clubs, and recent teammates.",
-  },
-  {
-    icon: Undo2,
-    title: "Money-back guarantee",
-    desc: "Every order is backed by our refund promise. If something doesn't go to plan, we make it right — no runaround.",
-  },
-  {
-    icon: Headphones,
-    title: "24/7 live support",
-    desc: "Chat directly with your booster and reach a real person any hour. You're updated at every step, never left guessing.",
-  },
-  {
-    icon: CreditCard,
-    title: "Bank-grade encryption",
-    desc: "Payments run through Stripe (PCI-DSS), and your Steam credentials are encrypted at rest with AES-256 — only your booster can see them.",
-  },
+  { icon: Lock, key: "pp.i1" },
+  { icon: Undo2, key: "pp.i2" },
+  { icon: Headphones, key: "pp.i3" },
+  { icon: CreditCard, key: "pp.i4" },
 ];
 
 export function PurchaseProtection({ defaultOpen = false }: { defaultOpen?: boolean }) {
+  const t = useT();
   const [open, setOpen] = useState(defaultOpen);
 
   return (
@@ -59,7 +45,7 @@ export function PurchaseProtection({ defaultOpen = false }: { defaultOpen?: bool
             RankUpPH Shield™
           </span>
           <span className="block font-display text-base font-semibold text-white">
-            How we protect your purchase
+            {t("pp.title")}
           </span>
         </span>
         <ChevronDown
@@ -81,14 +67,14 @@ export function PurchaseProtection({ defaultOpen = false }: { defaultOpen?: bool
           >
             <div className="space-y-5 border-t border-gold/[0.12] px-4 py-5">
               {ITEMS.map((item) => (
-                <div key={item.title} className="flex gap-3.5">
+                <div key={item.key} className="flex gap-3.5">
                   <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-gold/10 text-gold">
                     <item.icon className="size-4" />
                   </span>
                   <div>
-                    <p className="text-sm font-semibold text-white">{item.title}</p>
+                    <p className="text-sm font-semibold text-white">{t(`${item.key}.t`)}</p>
                     <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                      {item.desc}
+                      {t(`${item.key}.d`)}
                     </p>
                   </div>
                 </div>

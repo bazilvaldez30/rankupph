@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Crosshair, Swords, Target, Timer, Trophy } from "lucide-react";
 import type { ServiceCategoryKey } from "@/lib/catalog-data";
 import type { PublicService } from "@/lib/fallback-data";
+import { useT } from "@/hooks/use-translation";
 import { cn } from "@/lib/utils";
 
 const ICONS: Record<ServiceCategoryKey, typeof Swords> = {
@@ -26,6 +27,7 @@ export function CalculatorTabs({
   activeSlug,
   onSelect,
 }: CalculatorTabsProps) {
+  const t = useT();
   return (
     <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {services.map((s) => {
@@ -51,7 +53,9 @@ export function CalculatorTabs({
               />
             )}
             <Icon className={cn("relative size-4", active && "text-gold")} />
-            <span className="relative whitespace-nowrap">{s.title}</span>
+            <span className="relative whitespace-nowrap">
+              {t(`svc.${s.slug}.title`, s.title)}
+            </span>
           </button>
         );
       })}

@@ -12,6 +12,7 @@ import { OrderSummary, type Progression, type SummaryLine } from "./order-summar
 import { MobileCheckoutBar } from "./mobile-checkout-bar";
 import { FirstOrderBanner } from "@/components/marketing/first-order-banner";
 import { DEFAULT_OFFER, firstOrderDiscount, type FirstOrderOffer } from "@/lib/promo";
+import { useT } from "@/hooks/use-translation";
 
 const DUO_KEY = "DUO_QUEUE";
 
@@ -34,6 +35,7 @@ export function PricingCalculator({
   mode = "full",
   offer = DEFAULT_OFFER,
 }: PricingCalculatorProps) {
+  const t = useT();
   const router = useRouter();
   const visible = lockedSlug ? services.filter((s) => s.slug === lockedSlug) : services;
 
@@ -95,8 +97,8 @@ export function PricingCalculator({
     const lines: SummaryLine[] = [];
     if (isPerUnit && activeService.unitLabel) {
       lines.push({
-        label: "Quantity",
-        value: `${quantity} ${activeService.unitLabel}${quantity > 1 ? "s" : ""}`,
+        label: t("calc.quantity"),
+        value: `${quantity} ${t(`unit.${activeService.unitLabel}`, activeService.unitLabel)}`,
       });
     }
     const seen = new Set<string>();
@@ -106,14 +108,18 @@ export function PricingCalculator({
       const opt = activeService.options.find(
         (x) => x.groupKey === o.groupKey && x.value === optionSelections[o.groupKey],
       );
-      if (opt) lines.push({ label: o.groupLabel, value: opt.label });
+      if (opt)
+        lines.push({
+          label: t(`grp.${o.groupKey}`, o.groupLabel),
+          value: t(`opt.${o.groupKey}.${opt.value}`, opt.label),
+        });
     }
     lines.push({
-      label: "Boosting Mode",
-      value: modifierKeys.includes(DUO_KEY) ? "Duo Queue" : "Solo Boost",
+      label: t("mode.label"),
+      value: modifierKeys.includes(DUO_KEY) ? t("mode.duo") : t("mode.solo"),
     });
     return lines;
-  }, [activeService, quantity, optionSelections, modifierKeys, isPerUnit]);
+  }, [activeService, quantity, optionSelections, modifierKeys, isPerUnit, t]);
 
   async function handleCheckout() {
     if (!activeService) return;

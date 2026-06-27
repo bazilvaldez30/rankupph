@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { formatCentavos } from "@/lib/format";
+import { useT } from "@/hooks/use-translation";
 import type { PublicServiceOption } from "@/lib/fallback-data";
 
 interface OptionSelectProps {
@@ -32,11 +33,13 @@ export function OptionSelect({
   value,
   onChange,
 }: OptionSelectProps) {
+  const t = useT();
   const sorted = [...options].sort((a, b) => a.sortOrder - b.sortOrder);
+  const groupKey = options[0]?.groupKey ?? "";
   return (
     <div className="space-y-2.5">
       <Label className="text-xs uppercase tracking-wider text-muted-foreground">
-        {groupLabel}
+        {t(`grp.${groupKey}`, groupLabel)}
       </Label>
       <Select value={value} onValueChange={onChange}>
         <SelectTrigger className="h-12">
@@ -45,7 +48,7 @@ export function OptionSelect({
         <SelectContent>
           {sorted.map((o) => (
             <SelectItem key={o.value} value={o.value}>
-              {o.label}
+              {t(`opt.${groupKey}.${o.value}`, o.label)}
               {priceHint(o)}
             </SelectItem>
           ))}

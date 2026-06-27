@@ -2,20 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useT } from "@/hooks/use-translation";
 
-const MESSAGES = [
-  "12 players online now",
-  "5 orders completed today",
-  "24 verified boosters available",
-  "3 boosts started in the last hour",
-];
+const MESSAGE_KEYS = ["live.m1", "live.m2", "live.m3", "live.m4"];
 
 /** Rotating "live" social-proof badge. Conversion nudge near CTAs. */
 export function LiveActivity({ className }: { className?: string }) {
+  const t = useT();
   const [i, setI] = useState(0);
 
   useEffect(() => {
-    const id = setInterval(() => setI((p) => (p + 1) % MESSAGES.length), 3500);
+    const id = setInterval(() => setI((p) => (p + 1) % MESSAGE_KEYS.length), 3500);
     return () => clearInterval(id);
   }, []);
 
@@ -36,7 +33,7 @@ export function LiveActivity({ className }: { className?: string }) {
           transition={{ duration: 0.3 }}
           className="text-xs font-medium text-foreground/80"
         >
-          {MESSAGES[i]}
+          {t(MESSAGE_KEYS[i]!)}
         </motion.span>
       </AnimatePresence>
     </div>

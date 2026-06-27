@@ -2,6 +2,7 @@
 
 import { Switch } from "@/components/ui/switch";
 import { Price } from "@/components/shared/price";
+import { useT } from "@/hooks/use-translation";
 import type { PublicModifier } from "@/lib/fallback-data";
 
 interface ModifierTogglesProps {
@@ -27,12 +28,13 @@ export function ModifierToggles({
   selected,
   onToggle,
 }: ModifierTogglesProps) {
+  const t = useT();
   const addons = modifiers.filter((m) => !m.isBoostingMode);
   if (addons.length === 0) return null;
   return (
     <div className="space-y-2.5">
       <p className="text-xs uppercase tracking-wider text-muted-foreground">
-        Extra Options
+        {t("calc.extraOptions")}
       </p>
       {addons.map((m) => {
         const on = selected.includes(m.key);
@@ -57,11 +59,13 @@ export function ModifierToggles({
           >
             <div className="min-w-0 pr-4">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-foreground">{m.label}</span>
+                <span className="text-sm font-medium text-foreground">
+                  {t(`mod.${m.key}.label`, m.label)}
+                </span>
                 <span className="text-xs font-medium text-gold"><ModifierHint m={m} /></span>
               </div>
               <p className="mt-0.5 truncate text-xs text-muted-foreground">
-                {m.description}
+                {t(`mod.${m.key}.desc`, m.description)}
               </p>
             </div>
             {/* Visual only — the whole card is the control. */}

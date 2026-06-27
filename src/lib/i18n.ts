@@ -5,6 +5,8 @@
  * maintainability.
  */
 
+import { CATALOG } from "@/lib/catalog-i18n";
+
 export type Locale = "en" | "zh" | "es" | "pt" | "ru" | "fil";
 
 export interface LocaleMeta {
@@ -58,6 +60,30 @@ const T: Record<string, Entry> = {
   "hero.trusted": { en: "Trusted by Dota 2 Players Worldwide", zh: "深受全球 Dota 2 玩家信赖", es: "La confianza de jugadores de Dota 2 en todo el mundo", pt: "A confiança de jogadores de Dota 2 no mundo todo", ru: "Нам доверяют игроки Dota 2 по всему миру", fil: "Pinagkakatiwalaan ng mga Dota 2 Player sa buong mundo" },
   "cta.calculate": { en: "Calculate Your Boost", zh: "计算代练价格", es: "Calcula tu boost", pt: "Calcule seu boost", ru: "Рассчитать буст", fil: "Kalkulahin ang Boost" },
   "cta.explore": { en: "Explore Services", zh: "浏览服务", es: "Explorar servicios", pt: "Explorar serviços", ru: "Смотреть услуги", fil: "Tuklasin ang mga Serbisyo" },
+  "hero.titleMain": { en: "Reach Your Desired Rank", zh: "更快到达你的", es: "Alcanza tu rango deseado", pt: "Alcance o rank que você quer", ru: "Достигайте желаемого ранга", fil: "Abutin ang gusto mong rank nang" },
+  "hero.titleAccent": { en: "Faster.", zh: "理想段位。", es: "más rápido.", pt: "mais rápido.", ru: "быстрее.", fil: "mas mabilis." },
+  "hero.badgeFull": { en: "Premium Dota 2 boosting — now serving players worldwide", zh: "高端 Dota 2 代练 —— 现已服务全球玩家", es: "Boost premium de Dota 2: ahora para jugadores de todo el mundo", pt: "Boost premium de Dota 2 — agora para jogadores do mundo todo", ru: "Премиум-буст Dota 2 — теперь для игроков по всему миру", fil: "Premium na Dota 2 boosting — para na sa mga player sa buong mundo" },
+  "hero.badgeShort": { en: "Premium Dota 2 boosting · worldwide", zh: "高端 Dota 2 代练 · 全球", es: "Boost premium de Dota 2 · mundial", pt: "Boost premium de Dota 2 · mundial", ru: "Премиум-буст Dota 2 · по миру", fil: "Premium na Dota 2 boosting · worldwide" },
+  "hero.tagline": { en: "Trusted by Dota 2 Players Worldwide — professional boosting available globally.", zh: "深受全球 Dota 2 玩家信赖 —— 专业代练服务覆盖全球。", es: "La confianza de jugadores de Dota 2 en todo el mundo — boost profesional disponible globalmente.", pt: "A confiança de jogadores de Dota 2 no mundo todo — boost profissional disponível globalmente.", ru: "Нам доверяют игроки Dota 2 по всему миру — профессиональный буст доступен глобально.", fil: "Pinagkakatiwalaan ng mga Dota 2 Player sa buong mundo — propesyonal na boosting na available globally." },
+  "hero.offerPre": { en: "First order: save", zh: "首单立减", es: "Primer pedido: ahorra", pt: "Primeiro pedido: economize", ru: "Первый заказ: скидка", fil: "Unang order: tipid ng" },
+  "hero.offerSuf": { en: "— applied automatically at checkout", zh: "—— 结账时自动应用", es: "— se aplica automáticamente al pagar", pt: "— aplicado automaticamente no checkout", ru: "— применяется автоматически при оплате", fil: "— awtomatikong ma-a-apply sa checkout" },
+  "live.m1": { en: "12 players online now", zh: "12 位玩家在线", es: "12 jugadores en línea ahora", pt: "12 jogadores online agora", ru: "12 игроков онлайн", fil: "12 players online ngayon" },
+  "live.m2": { en: "5 orders completed today", zh: "今日已完成 5 笔订单", es: "5 pedidos completados hoy", pt: "5 pedidos concluídos hoje", ru: "5 заказов выполнено сегодня", fil: "5 order na natapos ngayong araw" },
+  "live.m3": { en: "24 verified boosters available", zh: "24 名认证代练可用", es: "24 boosters verificados disponibles", pt: "24 boosters verificados disponíveis", ru: "24 проверенных бустера доступно", fil: "24 verified booster ang available" },
+  "live.m4": { en: "3 boosts started in the last hour", zh: "过去一小时内开始了 3 单代练", es: "3 boosts iniciados en la última hora", pt: "3 boosts iniciados na última hora", ru: "3 буста начато за последний час", fil: "3 boost na nagsimula sa nakaraang oras" },
+  "calc.extraOptions": { en: "Extra Options", zh: "附加选项", es: "Opciones extra", pt: "Opções extras", ru: "Доп. опции", fil: "Karagdagang Opsyon" },
+  "calc.quantity": { en: "Quantity", zh: "数量", es: "Cantidad", pt: "Quantidade", ru: "Количество", fil: "Dami" },
+
+  // ── Purchase protection (RankUpPH Shield) ───────────────────
+  "pp.title": { en: "How we protect your purchase", zh: "我们如何保护您的购买", es: "Cómo protegemos tu compra", pt: "Como protegemos sua compra", ru: "Как мы защищаем вашу покупку", fil: "Paano namin pinoprotektahan ang binili mo" },
+  "pp.i1.t": { en: "Your account stays private", zh: "您的账号保持私密", es: "Tu cuenta se mantiene privada", pt: "Sua conta permanece privada", ru: "Ваш аккаунт остаётся приватным", fil: "Private ang account mo" },
+  "pp.i1.d": { en: "Boosters play through a region-matched VPN in offline mode — invisible to your friends, clubs, and recent teammates.", zh: "代练通过与地区匹配的 VPN 以离线模式游戏——对您的好友、战队和近期队友隐身。", es: "Los boosters juegan con una VPN de tu región en modo offline, invisibles para amigos, clubes y compañeros recientes.", pt: "Os boosters jogam com uma VPN da sua região em modo offline — invisíveis para amigos, clubes e colegas recentes.", ru: "Бустеры играют через VPN вашего региона в офлайн-режиме — невидимы для друзей, клубов и недавних тиммейтов.", fil: "Naglalaro ang boosters sa region-matched VPN sa offline mode — hindi nakikita ng mga kaibigan, club, at kakalaro." },
+  "pp.i2.t": { en: "Money-back guarantee", zh: "退款保证", es: "Garantía de devolución", pt: "Garantia de reembolso", ru: "Гарантия возврата денег", fil: "Money-back guarantee" },
+  "pp.i2.d": { en: "Every order is backed by our refund promise. If something doesn't go to plan, we make it right — no runaround.", zh: "每笔订单都有我们的退款承诺。如果出现问题，我们会妥善解决——绝不推诿。", es: "Cada pedido cuenta con nuestra promesa de reembolso. Si algo no sale según lo previsto, lo arreglamos — sin vueltas.", pt: "Cada pedido tem nossa promessa de reembolso. Se algo não sair como planejado, resolvemos — sem enrolação.", ru: "Каждый заказ обеспечен нашей гарантией возврата. Если что-то пойдёт не так, мы всё исправим — без отговорок.", fil: "Bawat order ay may refund promise namin. Kung may mali, aayusin namin — walang paikot-ikot." },
+  "pp.i3.t": { en: "24/7 live support", zh: "全天候在线支持", es: "Soporte en vivo 24/7", pt: "Suporte ao vivo 24/7", ru: "Поддержка 24/7", fil: "24/7 live support" },
+  "pp.i3.d": { en: "Chat directly with your booster and reach a real person any hour. You're updated at every step, never left guessing.", zh: "随时直接与您的代练沟通，联系真人客服。每一步都有更新，绝不让您猜测。", es: "Chatea con tu booster y contacta a una persona real a cualquier hora. Te actualizamos en cada paso, sin dejarte con dudas.", pt: "Converse com seu booster e fale com uma pessoa real a qualquer hora. Você é atualizado a cada passo, sem dúvidas.", ru: "Общайтесь с бустером и связывайтесь с живым человеком в любое время. Вас держат в курсе на каждом шаге.", fil: "Makipag-chat sa booster mo at sa tunay na tao anumang oras. May update ka sa bawat hakbang, walang hula-hula." },
+  "pp.i4.t": { en: "Bank-grade encryption", zh: "银行级加密", es: "Cifrado de nivel bancario", pt: "Criptografia de nível bancário", ru: "Банковское шифрование", fil: "Bank-grade na encryption" },
+  "pp.i4.d": { en: "Payments run through Stripe (PCI-DSS), and your Steam credentials are encrypted at rest with AES-256 — only your booster can see them.", zh: "支付通过 Stripe（PCI-DSS）处理，您的 Steam 凭证以 AES-256 静态加密——只有您的代练可以看到。", es: "Los pagos pasan por Stripe (PCI-DSS) y tus credenciales de Steam se cifran con AES-256 — solo tu booster las ve.", pt: "Os pagamentos passam pela Stripe (PCI-DSS) e suas credenciais da Steam são criptografadas com AES-256 — só seu booster as vê.", ru: "Платежи проходят через Stripe (PCI-DSS), а данные Steam шифруются AES-256 — их видит только ваш бустер.", fil: "Dumadaan ang bayad sa Stripe (PCI-DSS), at naka-encrypt ang Steam credentials mo gamit ang AES-256 — booster mo lang ang makakakita." },
 
   // ── Global trust strip ──────────────────────────────────────
   "trust.s1": { en: "Global Service Coverage", zh: "全球服务覆盖", es: "Cobertura global", pt: "Cobertura global", ru: "Глобальное покрытие", fil: "Global na Saklaw" },
@@ -269,6 +295,18 @@ const T: Record<string, Entry> = {
 
 export const TRANSLATION_KEYS = Object.keys(T);
 
-export function translate(locale: Locale, key: string): string {
-  return T[key]?.[locale] ?? T[key]?.en ?? key;
+/**
+ * Translate a key for a locale. Checks UI strings then the catalog map.
+ * `fallback` (e.g. the original DB text) is used when no translation exists,
+ * so untranslated catalog items render their English source — never a raw key.
+ */
+export function translate(locale: Locale, key: string, fallback?: string): string {
+  return (
+    T[key]?.[locale] ??
+    CATALOG[key]?.[locale] ??
+    T[key]?.en ??
+    CATALOG[key]?.en ??
+    fallback ??
+    key
+  );
 }

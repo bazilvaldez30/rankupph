@@ -8,7 +8,7 @@ import { useLocaleStore } from "@/stores/locale-store";
  * server components can stay on the server and still localize their text:
  *   <T k="sec.faq.eyebrow" />
  */
-export function T({ k }: { k: string }) {
+export function T({ k, fallback }: { k: string; fallback?: string }) {
   const locale = useLocaleStore((s) => s.locale);
-  return <>{translate(locale, k)}</>;
+  return <>{translate(locale, k, fallback)}</>;
 }

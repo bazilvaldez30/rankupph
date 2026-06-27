@@ -60,12 +60,8 @@ export function Hero() {
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-gold/60" />
               <span className="relative inline-flex size-2 rounded-full bg-gold" />
             </span>
-            <span className="truncate sm:hidden">
-              Premium Dota 2 boosting · worldwide
-            </span>
-            <span className="hidden sm:inline">
-              Premium Dota 2 boosting — now serving players worldwide
-            </span>
+            <span className="truncate sm:hidden">{t("hero.badgeShort")}</span>
+            <span className="hidden sm:inline">{t("hero.badgeFull")}</span>
           </motion.div>
 
           <motion.h1
@@ -75,9 +71,8 @@ export function Hero() {
             animate="show"
             className="font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl"
           >
-            Reach Your Desired
-            <br />
-            Rank <span className="gold-text">Faster.</span>
+            {t("hero.titleMain")}{" "}
+            <span className="gold-text">{t("hero.titleAccent")}</span>
           </motion.h1>
 
           {/* Updated worldwide subtitle — highly visible on desktop & mobile */}
@@ -92,9 +87,7 @@ export function Hero() {
               {t("hero.subtitle")}
             </p>
             <p className="mt-2 text-base text-muted-foreground sm:text-lg">
-              Trusted by{" "}
-              <span className="font-medium text-gold">Dota 2 Players Worldwide</span>
-              {" "}— professional boosting available globally.
+              {t("hero.tagline")}
             </p>
           </motion.div>
 
@@ -127,8 +120,7 @@ export function Hero() {
             >
               <span className="inline-flex items-center gap-2 rounded-full border border-gold/25 bg-gold/[0.07] px-4 py-2 text-sm font-medium text-gold">
                 <Gift className="size-4" />
-                First order: save {FIRST_ORDER.percent}% — applied automatically at
-                checkout
+                {t("hero.offerPre")} {FIRST_ORDER.percent}% {t("hero.offerSuf")}
               </span>
             </motion.div>
           )}

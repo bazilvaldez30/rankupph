@@ -3,6 +3,7 @@ import { ArrowUpRight, Check, Crosshair, Swords, Target, Timer, Trophy } from "l
 import type { ServiceCategoryKey } from "@/lib/catalog-data";
 import type { PublicService } from "@/lib/fallback-data";
 import { Price } from "@/components/shared/price";
+import { T } from "@/components/i18n/t";
 
 const ICONS: Record<ServiceCategoryKey, typeof Swords> = {
   MMR_BOOSTING: Target,
@@ -15,10 +16,8 @@ const ICONS: Record<ServiceCategoryKey, typeof Swords> = {
 
 export function ServiceCard({ service }: { service: PublicService }) {
   const Icon = ICONS[service.category] ?? Swords;
-  const priceSuffix =
-    service.pricingMethod === "PER_UNIT" && service.unitLabel
-      ? ` / ${service.unitLabel}`
-      : "";
+  const showUnit =
+    service.pricingMethod === "PER_UNIT" && Boolean(service.unitLabel);
   return (
     <Link
       href={`/services/${service.slug}`}
@@ -34,33 +33,38 @@ export function ServiceCard({ service }: { service: PublicService }) {
       </div>
 
       <h3 className="relative mt-6 font-display text-xl font-semibold text-white">
-        {service.title}
+        <T k={`svc.${service.slug}.title`} fallback={service.title} />
       </h3>
       <p className="relative mt-2 text-sm leading-relaxed text-muted-foreground">
-        {service.shortDescription}
+        <T k={`svc.${service.slug}.desc`} fallback={service.shortDescription} />
       </p>
 
       <ul className="relative mt-6 space-y-2.5">
         {service.features.slice(0, 4).map((f) => (
           <li key={f} className="flex items-center gap-2.5 text-sm text-foreground/80">
             <Check className="size-4 shrink-0 text-gold" />
-            {f}
+            <T k={`feat.${f}`} fallback={f} />
           </li>
         ))}
       </ul>
 
       <div className="relative mt-7 flex items-end justify-between border-t border-white/[0.06] pt-5">
         <div>
-          <span className="text-xs text-muted-foreground">Starting from</span>
+          <span className="text-xs text-muted-foreground">
+            <T k="common.startingFrom" />
+          </span>
           <div className="font-display text-2xl font-bold text-white">
             <Price centavos={service.basePrice} />
-            <span className="text-sm font-normal text-muted-foreground">
-              {priceSuffix}
-            </span>
+            {showUnit && (
+              <span className="text-sm font-normal text-muted-foreground">
+                {" / "}
+                <T k={`unit.${service.unitLabel}`} fallback={service.unitLabel ?? ""} />
+              </span>
+            )}
           </div>
         </div>
         <span className="text-sm font-medium text-gold opacity-0 transition-opacity group-hover:opacity-100">
-          View details
+          <T k="common.viewDetails" />
         </span>
       </div>
     </Link>
