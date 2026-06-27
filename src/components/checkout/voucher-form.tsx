@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Tag, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useT } from "@/hooks/use-translation";
 import { cn } from "@/lib/utils";
 
 /**
@@ -18,6 +19,7 @@ export function VoucherForm({
   appliedCode?: string | null;
 }) {
   const router = useRouter();
+  const t = useT();
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -62,7 +64,7 @@ export function VoucherForm({
       <div className="flex items-center justify-between rounded-xl border border-gold/25 bg-gold/[0.06] px-4 py-3">
         <span className="flex items-center gap-2 text-sm font-medium text-gold">
           <Tag className="size-4" />
-          Voucher {appliedCode} applied
+          {appliedCode} {t("co.voucherApplied")}
         </span>
         <button
           type="button"
@@ -71,7 +73,7 @@ export function VoucherForm({
           className="flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
         >
           {loading ? <Loader2 className="size-3.5 animate-spin" /> : <X className="size-3.5" />}
-          Remove
+          {t("co.remove")}
         </button>
       </div>
     );
@@ -85,7 +87,7 @@ export function VoucherForm({
         className="flex items-center gap-2 text-sm font-medium text-gold transition-colors hover:text-gold/80"
       >
         <Tag className="size-4" />
-        Have a voucher code?
+        {t("co.haveVoucher")}
       </button>
     );
   }
@@ -97,7 +99,7 @@ export function VoucherForm({
           value={code}
           onChange={(e) => setCode(e.target.value.toUpperCase())}
           onKeyDown={(e) => e.key === "Enter" && apply()}
-          placeholder="Enter code"
+          placeholder={t("co.enterCode")}
           autoFocus
           className={cn(
             "flex h-11 w-full rounded-xl border bg-white/[0.03] px-4 text-sm uppercase tracking-wider text-foreground placeholder:normal-case placeholder:tracking-normal placeholder:text-muted-foreground/60 focus-visible:outline-none",
@@ -106,7 +108,7 @@ export function VoucherForm({
         />
         <Button onClick={apply} disabled={loading || !code.trim()} className="shrink-0">
           {loading && <Loader2 className="size-4 animate-spin" />}
-          Apply
+          {t("co.apply")}
         </Button>
       </div>
       {error && <p className="mt-2 text-sm text-red-400">{error}</p>}

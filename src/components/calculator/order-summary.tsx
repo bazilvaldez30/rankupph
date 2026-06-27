@@ -22,6 +22,7 @@ import {
 import { Price } from "@/components/shared/price";
 import { PurchaseProtection } from "@/components/shared/purchase-protection";
 import { Button } from "@/components/ui/button";
+import { useT } from "@/hooks/use-translation";
 import { RankMedal } from "./rank-medal";
 
 export interface SummaryLine {
@@ -48,10 +49,10 @@ interface OrderSummaryProps {
 }
 
 const TRUST = [
-  { icon: ShieldCheck, label: "Secure Checkout" },
-  { icon: Users, label: "Verified Players" },
-  { icon: Truck, label: "Fast Delivery" },
-  { icon: Headphones, label: "24/7 Support" },
+  { icon: ShieldCheck, key: "os.trust.secure" },
+  { icon: Users, key: "os.trust.verified" },
+  { icon: Truck, key: "os.trust.fast" },
+  { icon: Headphones, key: "os.trust.support" },
 ];
 
 function MedalRow({ mmr, label }: { mmr: number; label: string }) {
@@ -82,6 +83,7 @@ export function OrderSummary({
   error,
   offer,
 }: OrderSummaryProps) {
+  const t = useT();
   const invalid = quote && !quote.valid;
   const applyDiscount = Boolean(offer?.active && offer?.eligible && quote?.valid);
   const discount = applyDiscount ? firstOrderDiscount(quote!.total) : 0;
@@ -91,7 +93,7 @@ export function OrderSummary({
     <div className="space-y-4">
       <div className="glass overflow-hidden rounded-3xl">
       <div className="border-b border-white/[0.06] px-6 py-5">
-        <h3 className="font-display text-lg font-semibold text-white">Order Summary</h3>
+        <h3 className="font-display text-lg font-semibold text-white">{t("os.title")}</h3>
         <p className="mt-0.5 text-sm text-muted-foreground">{service.title}</p>
       </div>
 
@@ -99,14 +101,14 @@ export function OrderSummary({
         {/* Rank progression */}
         {progression && (
           <div className="space-y-3 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-4">
-            <MedalRow mmr={progression.current.mmr} label="Current" />
+            <MedalRow mmr={progression.current.mmr} label={t("os.current")} />
             {progression.target && (
               <>
                 <ArrowDown className="ml-3 size-4 text-gold" />
-                <MedalRow mmr={progression.target.mmr} label="Target" />
+                <MedalRow mmr={progression.target.mmr} label={t("os.target")} />
                 {progression.diff != null && progression.diff > 0 && (
                   <div className="flex items-center justify-between border-t border-white/[0.06] pt-3 text-sm">
-                    <span className="text-muted-foreground">MMR difference</span>
+                    <span className="text-muted-foreground">{t("os.mmrDiff")}</span>
                     <span className="font-medium text-gold">
                       +{progression.diff.toLocaleString()} MMR
                     </span>
@@ -156,7 +158,7 @@ export function OrderSummary({
             ))}
             {discount > 0 && (
               <div className="flex justify-between border-t border-white/[0.06] pt-2 font-medium text-gold">
-                <span>First-order discount ({offer!.percent}%)</span>
+                <span>{t("os.firstDiscount")} ({offer!.percent}%)</span>
                 <span className="tabular-nums">
                   −<Price centavos={discount} />
                 </span>
@@ -169,7 +171,7 @@ export function OrderSummary({
         {quote?.valid && (
           <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm">
             <Clock className="size-4 text-gold" />
-            <span className="text-muted-foreground">Estimated delivery</span>
+            <span className="text-muted-foreground">{t("os.estDelivery")}</span>
             <span className="ml-auto font-medium text-foreground">
               {quote.estimatedDelivery}
             </span>
@@ -180,9 +182,9 @@ export function OrderSummary({
         <div className="rounded-2xl border border-gold/20 bg-gold/[0.04] p-5">
           <div className="flex items-end justify-between">
             <div>
-              <p className="text-xs uppercase tracking-wider text-muted-foreground">Total</p>
+              <p className="text-xs uppercase tracking-wider text-muted-foreground">{t("os.total")}</p>
               <p className="mt-1 text-xs text-muted-foreground">
-                Final price confirmed at checkout
+                {t("os.finalAtCheckout")}
               </p>
             </div>
             <AnimatePresence mode="wait">
@@ -218,7 +220,7 @@ export function OrderSummary({
           </div>
           {discount > 0 && (
             <p className="mt-3 flex items-center justify-center gap-1.5 rounded-xl bg-gold/[0.08] py-1.5 text-xs font-medium text-gold">
-              🎉 You save <Price centavos={discount} /> on your first order
+              {t("os.youSavePre")} <Price centavos={discount} /> {t("os.youSaveSuf")}
             </p>
           )}
         </div>
@@ -236,15 +238,15 @@ export function OrderSummary({
           onClick={onCheckout}
         >
           {submitting && <Loader2 className="size-4 animate-spin" />}
-          Continue to Checkout
+          {t("os.continue")}
           <ArrowRight className="size-4" />
         </Button>
 
         <div className="grid grid-cols-2 gap-3 border-t border-white/[0.06] pt-5">
-          {TRUST.map((t) => (
-            <div key={t.label} className="flex items-center gap-2 text-xs text-muted-foreground">
-              <t.icon className="size-4 text-gold" />
-              {t.label}
+          {TRUST.map((item) => (
+            <div key={item.key} className="flex items-center gap-2 text-xs text-muted-foreground">
+              <item.icon className="size-4 text-gold" />
+              {t(item.key)}
             </div>
           ))}
         </div>

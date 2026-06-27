@@ -1,5 +1,6 @@
 import { Gift, Users } from "lucide-react";
 import { Reveal } from "@/components/shared/reveal";
+import { T } from "@/components/i18n/t";
 import { REFERRAL } from "@/lib/promo";
 
 /**
@@ -23,20 +24,20 @@ export function ReferralTeaser() {
                   </span>
                   {REFERRAL.comingSoon && (
                     <span className="rounded-full border border-gold/25 bg-gold/[0.06] px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-gold">
-                      Coming soon
+                      <T k="referral.comingSoon" />
                     </span>
                   )}
                 </div>
                 <h2 className="mt-5 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                  Invite a friend, <span className="gold-text">both get rewarded.</span>
+                  <T k="referral.lead" />{" "}
+                  <span className="gold-text">
+                    <T k="referral.accent" />
+                  </span>
                 </h2>
                 <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-                  You and your friend each receive{" "}
-                  <span className="font-semibold text-gold">
-                    ₱{REFERRAL.creditPhp} credit
-                  </span>{" "}
-                  after their first completed order. Real rewards for real
-                  recommendations — no spam, no catch.
+                  <T k="referral.desc1" />{" "}
+                  <span className="font-semibold text-gold">₱{REFERRAL.creditPhp}</span>{" "}
+                  <T k="referral.desc2" />
                 </p>
               </div>
 
@@ -48,8 +49,7 @@ export function ReferralTeaser() {
                   ₱{REFERRAL.creditPhp} + ₱{REFERRAL.creditPhp}
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Referral rewards are launching soon. Place an order today to be
-                  ready.
+                  <T k="referral.cardNote" />
                 </p>
               </div>
             </div>

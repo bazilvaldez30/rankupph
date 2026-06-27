@@ -2,6 +2,7 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/shared/reveal";
 import { ServiceCard } from "@/components/marketing/service-card";
 import { Carousel } from "@/components/shared/carousel";
+import { T } from "@/components/i18n/t";
 import type { PublicService } from "@/lib/fallback-data";
 
 export function ServicesSection({ services }: { services: PublicService[] }) {
@@ -9,13 +10,16 @@ export function ServicesSection({ services }: { services: PublicService[] }) {
     <section id="services" className="relative py-20 sm:py-28 lg:py-32">
       <div className="container">
         <SectionHeading
-          eyebrow="Our Services"
+          eyebrow={<T k="sec.services.eyebrow" />}
           title={
             <>
-              Three ways to <span className="gold-text">climb.</span>
+              <T k="sec.services.lead" />{" "}
+              <span className="gold-text">
+                <T k="sec.services.accent" />
+              </span>
             </>
           }
-          description="Whatever your goal — a higher medal, safer progress, or sharper skills — we have a premium service built for it."
+          description={<T k="sec.services.desc" />}
         />
 
         <Carousel

@@ -3,6 +3,7 @@ import { Reveal } from "@/components/shared/reveal";
 import { PricingCalculator } from "@/components/calculator/pricing-calculator";
 import { getCalculatorBootstrap } from "@/lib/pricing-service";
 import { getFirstOrderOffer } from "@/lib/promo.server";
+import { T } from "@/components/i18n/t";
 import { CinematicBackdrop } from "@/components/cinematic/cinematic-backdrop";
 
 export async function CalculatorPreview() {
@@ -16,13 +17,16 @@ export async function CalculatorPreview() {
       <CinematicBackdrop image="/battlefield.png" opacity={0.09} glow="top" />
       <div className="container relative">
         <SectionHeading
-          eyebrow="Instant Pricing"
+          eyebrow={<T k="sec.calc.eyebrow" />}
           title={
             <>
-              Know your price <span className="gold-text">before you commit.</span>
+              <T k="sec.calc.lead" />{" "}
+              <span className="gold-text">
+                <T k="sec.calc.accent" />
+              </span>
             </>
           }
-          description="No hidden fees, no surprises. Configure your order and watch the price update live — every value is rank- and option-based."
+          description={<T k="sec.calc.desc" />}
         />
 
         <Reveal className="mx-auto mt-14 max-w-5xl">

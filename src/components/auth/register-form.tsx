@@ -11,9 +11,11 @@ import { registerSchema, type RegisterInput } from "@/lib/validations/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useT } from "@/hooks/use-translation";
 import { GoogleButton } from "./google-button";
 
 export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
+  const t = useT();
   const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -57,20 +59,20 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
     <div className="glass rounded-3xl p-6 sm:p-10">
       <div className="mb-8 space-y-2">
         <h1 className="font-display text-2xl font-semibold tracking-tight text-white">
-          Create your account
+          {t("auth.reg.title")}
         </h1>
         <p className="text-sm text-muted-foreground">
-          Join thousands of players climbing with RankUpPH.
+          {t("auth.reg.subtitle")}
         </p>
       </div>
 
       {googleEnabled && (
         <>
-          <GoogleButton label="Sign up with Google" />
+          <GoogleButton label={t("auth.google.signup")} />
           <div className="my-6 flex items-center gap-4">
             <div className="h-px flex-1 bg-white/[0.07]" />
             <span className="text-xs uppercase tracking-widest text-muted-foreground">
-              or
+              {t("co.or")}
             </span>
             <div className="h-px flex-1 bg-white/[0.07]" />
           </div>
@@ -79,7 +81,7 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div className="space-y-2">
-          <Label htmlFor="name">Name</Label>
+          <Label htmlFor="name">{t("auth.name")}</Label>
           <Input
             id="name"
             placeholder="Juan dela Cruz"
@@ -92,7 +94,7 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("auth.email")}</Label>
           <Input
             id="email"
             type="email"
@@ -107,7 +109,7 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t("auth.password")}</Label>
             <Input
               id="password"
               type="password"
@@ -120,7 +122,7 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm</Label>
+            <Label htmlFor="confirmPassword">{t("auth.confirm")}</Label>
             <Input
               id="confirmPassword"
               type="password"
@@ -144,14 +146,14 @@ export function RegisterForm({ googleEnabled }: { googleEnabled: boolean }) {
 
         <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
           {isSubmitting && <Loader2 className="size-4 animate-spin" />}
-          Create account
+          {t("auth.createAccount")}
         </Button>
       </form>
 
       <p className="mt-6 text-center text-sm text-muted-foreground">
-        Already have an account?{" "}
+        {t("auth.haveAccount")}{" "}
         <Link href="/login" className="font-medium text-gold hover:underline">
-          Sign in
+          {t("auth.signin")}
         </Link>
       </p>
     </div>

@@ -11,9 +11,11 @@ import { loginSchema, type LoginInput } from "@/lib/validations/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useT } from "@/hooks/use-translation";
 import { GoogleButton } from "./google-button";
 
 export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
+  const t = useT();
   const router = useRouter();
   const params = useSearchParams();
   const callbackUrl = params.get("callbackUrl");
@@ -51,20 +53,20 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
     <div className="glass rounded-3xl p-6 sm:p-10">
       <div className="mb-8 space-y-2">
         <h1 className="font-display text-2xl font-semibold tracking-tight text-white">
-          Welcome back
+          {t("auth.login.title")}
         </h1>
         <p className="text-sm text-muted-foreground">
-          Sign in to manage your orders and track progress.
+          {t("auth.login.subtitle")}
         </p>
       </div>
 
       {googleEnabled && (
         <>
-          <GoogleButton callbackUrl={callbackUrl ?? "/dashboard"} label="Sign in with Google" />
+          <GoogleButton callbackUrl={callbackUrl ?? "/dashboard"} label={t("auth.google.signin")} />
           <div className="my-6 flex items-center gap-4">
             <div className="h-px flex-1 bg-white/[0.07]" />
             <span className="text-xs uppercase tracking-widest text-muted-foreground">
-              or
+              {t("co.or")}
             </span>
             <div className="h-px flex-1 bg-white/[0.07]" />
           </div>
@@ -73,7 +75,7 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("auth.email")}</Label>
           <Input
             id="email"
             type="email"
@@ -87,7 +89,7 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">{t("auth.password")}</Label>
           <Input
             id="password"
             type="password"
@@ -108,14 +110,14 @@ export function LoginForm({ googleEnabled }: { googleEnabled: boolean }) {
 
         <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
           {isSubmitting && <Loader2 className="size-4 animate-spin" />}
-          Sign in
+          {t("auth.signin")}
         </Button>
       </form>
 
       <p className="mt-6 text-center text-sm text-muted-foreground">
-        Don&apos;t have an account?{" "}
+        {t("auth.noAccount")}{" "}
         <Link href="/register" className="font-medium text-gold hover:underline">
-          Create one
+          {t("auth.createOne")}
         </Link>
       </p>
     </div>

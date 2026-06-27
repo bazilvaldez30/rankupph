@@ -1,34 +1,35 @@
 import Link from "next/link";
 import { Logo } from "@/components/shared/logo";
 import { SITE } from "@/lib/constants";
+import { T } from "@/components/i18n/t";
 import { CinematicBackdrop } from "@/components/cinematic/cinematic-backdrop";
 
 const COLUMNS = [
   {
-    title: "Services",
+    title: "footer.col.services",
     links: [
-      { href: "/services/mmr-boosting", label: "MMR Boosting" },
-      { href: "/services/duo-queue", label: "Duo Queue" },
-      { href: "/services/coaching", label: "Coaching" },
-      { href: "/pricing-calculator", label: "Pricing Calculator" },
+      { href: "/services/mmr-boosting", key: "footer.link.mmr" },
+      { href: "/services/duo-queue", key: "footer.link.duo" },
+      { href: "/services/coaching", key: "footer.link.coaching" },
+      { href: "/pricing-calculator", key: "footer.link.calc" },
     ],
   },
   {
-    title: "Company",
+    title: "footer.col.company",
     links: [
-      { href: "/#why", label: "Why RankUpPH" },
-      { href: "/#reviews", label: "Reviews" },
-      { href: "/#faq", label: "FAQ" },
-      { href: "/track-order", label: "Track Order" },
-      { href: "/become-a-booster", label: "Become a Booster" },
+      { href: "/#why", key: "footer.link.why" },
+      { href: "/#reviews", key: "footer.link.reviews" },
+      { href: "/#faq", key: "footer.link.faq" },
+      { href: "/track-order", key: "nav.track" },
+      { href: "/become-a-booster", key: "footer.link.becomeBooster" },
     ],
   },
   {
-    title: "Account",
+    title: "footer.col.account",
     links: [
-      { href: "/login", label: "Sign in" },
-      { href: "/register", label: "Create account" },
-      { href: "/dashboard", label: "Dashboard" },
+      { href: "/login", key: "nav.signin" },
+      { href: "/register", key: "footer.link.createAccount" },
+      { href: "/dashboard", key: "nav.dashboard" },
     ],
   },
 ];
@@ -45,8 +46,7 @@ export function Footer() {
               {SITE.description}
             </p>
             <p className="text-xs text-muted-foreground/70">
-              Not affiliated with or endorsed by Valve Corporation. Dota 2 is a
-              trademark of Valve.
+              <T k="footer.disclaimer" />
             </p>
           </div>
 
@@ -54,16 +54,16 @@ export function Footer() {
             {COLUMNS.map((col) => (
               <div key={col.title}>
                 <h4 className="mb-4 text-sm font-semibold text-foreground">
-                  {col.title}
+                  <T k={col.title} />
                 </h4>
                 <ul className="space-y-3">
                   {col.links.map((l) => (
-                    <li key={l.href + l.label}>
+                    <li key={l.href + l.key}>
                       <Link
                         href={l.href}
                         className="text-sm text-muted-foreground transition-colors hover:text-gold"
                       >
-                        {l.label}
+                        <T k={l.key} />
                       </Link>
                     </li>
                   ))}
@@ -75,10 +75,10 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/[0.06] pt-8 sm:flex-row">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} {SITE.legalName}. All rights reserved.
+            © {new Date().getFullYear()} {SITE.legalName}. <T k="footer.copyright" />
           </p>
           <p className="text-xs text-muted-foreground">
-            Serving Dota 2 players worldwide · Secure payments via Stripe &amp; GCash
+            <T k="footer.serving" />
           </p>
         </div>
       </div>

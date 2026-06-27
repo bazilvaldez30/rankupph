@@ -15,6 +15,7 @@ import { StripeCheckoutButton } from "@/components/checkout/stripe-checkout-butt
 import { GCashPayment } from "@/components/checkout/gcash-payment";
 import { VoucherForm } from "@/components/checkout/voucher-form";
 import { TrustSignals } from "@/components/shared/trust-signals";
+import { T } from "@/components/i18n/t";
 import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
@@ -65,10 +66,11 @@ export default async function CheckoutPage({
       {/* Order summary */}
       <div>
         <h1 className="font-display text-3xl font-bold tracking-tight text-white">
-          Checkout
+          <T k="co.title" />
         </h1>
         <p className="mt-1 text-muted-foreground">
-          Order <span className="text-foreground">{order.orderNumber}</span> ·{" "}
+          <T k="co.order" />{" "}
+          <span className="text-foreground">{order.orderNumber}</span> ·{" "}
           {order.service.title}
         </p>
 
@@ -119,7 +121,7 @@ export default async function CheckoutPage({
             {discountTotal > 0 && (
               <>
                 <div className="flex justify-between border-t border-white/[0.06] pt-2 text-foreground">
-                  <span>Subtotal</span>
+                  <span><T k="co.subtotal" /></span>
                   <Price centavos={subtotal} className="tabular-nums" />
                 </div>
                 {discountLines.map((l, i) => (
@@ -140,7 +142,7 @@ export default async function CheckoutPage({
           <div className="mt-5 flex items-end justify-between border-t border-white/[0.06] pt-5">
             <div>
               <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                Total due
+                <T k="co.totalDue" />
               </p>
               {order.estimatedDelivery && (
                 <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -163,8 +165,14 @@ export default async function CheckoutPage({
           {discountTotal > 0 && (
             <div className="mt-4 flex items-center justify-center gap-2 rounded-2xl border border-gold/20 bg-gold/[0.06] px-4 py-2.5 text-sm font-medium text-gold">
               <Sparkles className="size-4" />
-              You saved {formatCentavos(discountTotal)}
-              {order.voucher ? ` with ${order.voucher.code}` : " on your first order"}
+              <T k="co.savedPre" /> {formatCentavos(discountTotal)}{" "}
+              {order.voucher ? (
+                <>
+                  <T k="co.savedWith" /> {order.voucher.code}
+                </>
+              ) : (
+                <T k="co.savedFirst" />
+              )}
             </div>
           )}
 
@@ -183,34 +191,34 @@ export default async function CheckoutPage({
             <div className="flex flex-col items-center py-6 text-center">
               <CheckCircle2 className="size-12 text-emerald-400" />
               <h2 className="mt-4 font-display text-xl font-semibold text-white">
-                Payment received
+                <T k="co.paymentReceived" />
               </h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                This order is already paid and being processed.
+                <T k="co.alreadyPaid" />
               </p>
               <div className="mt-3">
                 <OrderStatusBadge status={order.status} />
               </div>
               <Button asChild className="mt-6 w-full">
                 <Link href={`/track-order?number=${order.orderNumber}`}>
-                  Track your order
+                  <T k="co.trackOrder" />
                 </Link>
               </Button>
             </div>
           ) : (
             <>
               <h2 className="font-display text-lg font-semibold text-white">
-                Choose payment method
+                <T k="co.choosePayment" />
               </h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                Your order is confirmed once payment clears.
+                <T k="co.confirmedOnce" />
               </p>
 
               <div className="mt-6 space-y-6">
                 {features.stripe && (
                   <div>
                     <p className="mb-3 text-xs uppercase tracking-wider text-muted-foreground">
-                      Pay by card
+                      <T k="co.payByCard" />
                     </p>
                     <StripeCheckoutButton orderNumber={order.orderNumber} />
                   </div>
@@ -220,7 +228,7 @@ export default async function CheckoutPage({
                   <div className="flex items-center gap-3">
                     <div className="h-px flex-1 bg-white/[0.07]" />
                     <span className="text-xs uppercase tracking-widest text-muted-foreground">
-                      or
+                      <T k="co.or" />
                     </span>
                     <div className="h-px flex-1 bg-white/[0.07]" />
                   </div>
@@ -228,7 +236,7 @@ export default async function CheckoutPage({
 
                 <div>
                   <p className="mb-3 text-xs uppercase tracking-wider text-muted-foreground">
-                    Pay with GCash
+                    <T k="co.payGcash" />
                   </p>
                   <GCashPayment
                     orderNumber={order.orderNumber}
@@ -244,7 +252,7 @@ export default async function CheckoutPage({
                 <TrustSignals />
                 <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
                   <ShieldCheck className="size-4 text-gold" />
-                  Payments are encrypted. We never see your card details.
+                  <T k="co.encrypted" />
                 </div>
               </div>
             </>

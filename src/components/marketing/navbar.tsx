@@ -8,17 +8,19 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/shared/logo";
 import { Button } from "@/components/ui/button";
-import { CurrencySelector } from "@/components/currency/currency-selector";
+import { RegionSelector } from "@/components/i18n/region-modal";
+import { useT } from "@/hooks/use-translation";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
-  { href: "/services", label: "Services" },
-  { href: "/pricing-calculator", label: "Pricing" },
-  { href: "/track-order", label: "Track Order" },
+  { href: "/services", key: "nav.services" },
+  { href: "/pricing-calculator", key: "nav.pricing" },
+  { href: "/track-order", key: "nav.track" },
 ];
 
 export function Navbar() {
   const { data: session } = useSession();
+  const t = useT();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -69,24 +71,24 @@ export function Navbar() {
               href={l.href}
               className="text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
-              {l.label}
+              {t(l.key)}
             </Link>
           ))}
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
-          <CurrencySelector />
+          <RegionSelector />
           {session ? (
             <Button asChild size="sm">
-              <Link href={dashHref}>Dashboard</Link>
+              <Link href={dashHref}>{t("nav.dashboard")}</Link>
             </Button>
           ) : (
             <>
               <Button asChild variant="ghost" size="sm">
-                <Link href="/login">Sign in</Link>
+                <Link href="/login">{t("nav.signin")}</Link>
               </Button>
               <Button asChild size="sm">
-                <Link href="/pricing-calculator">Get Started</Link>
+                <Link href="/pricing-calculator">{t("nav.getStarted")}</Link>
               </Button>
             </>
           )}
@@ -121,27 +123,27 @@ export function Navbar() {
                   onClick={() => setOpen(false)}
                   className="rounded-xl px-3 py-3 text-base font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
                 >
-                  {l.label}
+                  {t(l.key)}
                 </Link>
               ))}
               <div className="mt-3 flex items-center justify-between gap-3 border-t border-white/[0.06] pt-4">
                 <span className="text-xs uppercase tracking-wider text-muted-foreground">
-                  Currency
+                  {t("region.title")}
                 </span>
-                <CurrencySelector />
+                <RegionSelector />
               </div>
               <div className="mt-3 flex flex-col gap-2.5">
                 {session ? (
                   <Button asChild size="lg" className="w-full">
-                    <Link href={dashHref}>Dashboard</Link>
+                    <Link href={dashHref}>{t("nav.dashboard")}</Link>
                   </Button>
                 ) : (
                   <>
                     <Button asChild variant="secondary" size="lg" className="w-full">
-                      <Link href="/login">Sign in</Link>
+                      <Link href="/login">{t("nav.signin")}</Link>
                     </Button>
                     <Button asChild size="lg" className="w-full">
-                      <Link href="/pricing-calculator">Get Started</Link>
+                      <Link href="/pricing-calculator">{t("nav.getStarted")}</Link>
                     </Button>
                   </>
                 )}

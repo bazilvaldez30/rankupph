@@ -6,6 +6,7 @@ import { ArrowRight, Gift } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LiveActivity } from "@/components/marketing/live-activity";
 import { FIRST_ORDER, firstOrderActive } from "@/lib/promo";
+import { useT } from "@/hooks/use-translation";
 
 const fade = {
   hidden: { opacity: 0, y: 20 },
@@ -17,6 +18,7 @@ const fade = {
 };
 
 export function Hero() {
+  const t = useT();
   return (
     <section className="relative overflow-hidden pb-16 pt-24 sm:pt-32">
       {/* Hero background art — blended into the luxury black/gold theme */}
@@ -87,7 +89,7 @@ export function Hero() {
             className="mx-auto mt-6 max-w-2xl"
           >
             <p className="font-display text-xl font-semibold text-white sm:text-2xl">
-              Premium Dota 2 Services Worldwide
+              {t("hero.subtitle")}
             </p>
             <p className="mt-2 text-base text-muted-foreground sm:text-lg">
               Trusted by{" "}
@@ -105,12 +107,12 @@ export function Hero() {
           >
             <Button asChild size="xl" className="w-full sm:w-auto">
               <Link href="/pricing-calculator">
-                Calculate Your Boost
+                {t("cta.calculate")}
                 <ArrowRight className="size-4" />
               </Link>
             </Button>
             <Button asChild variant="secondary" size="xl" className="w-full sm:w-auto">
-              <Link href="/services">Explore Services</Link>
+              <Link href="/services">{t("cta.explore")}</Link>
             </Button>
           </motion.div>
 
@@ -141,8 +143,7 @@ export function Hero() {
           >
             <span className="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium text-white">
               <span aria-hidden className="text-base">🌍</span>
-              Trusted by{" "}
-              <span className="text-gold">Dota 2 Players Worldwide</span>
+              <span className="text-gold">{t("hero.trusted")}</span>
             </span>
           </motion.div>
 

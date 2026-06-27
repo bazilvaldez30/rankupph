@@ -12,26 +12,28 @@ import {
 } from "lucide-react";
 import { Counter } from "@/components/shared/counter";
 import { Reveal } from "@/components/shared/reveal";
+import { useT } from "@/hooks/use-translation";
 
 const STRIP = [
-  { icon: Globe, label: "Global Service Coverage" },
-  { icon: CreditCard, label: "Secure Stripe Payments" },
-  { icon: Smartphone, label: "GCash Supported" },
-  { icon: BadgeCheck, label: "Verified High-Rank Boosters" },
-  { icon: Radar, label: "Real-Time Order Tracking" },
-  { icon: Headphones, label: "24/7 Customer Support" },
-  { icon: Globe2, label: "Worldwide Availability" },
+  { icon: Globe, key: "trust.s1" },
+  { icon: CreditCard, key: "trust.s2" },
+  { icon: Smartphone, key: "trust.s3" },
+  { icon: BadgeCheck, key: "trust.s4" },
+  { icon: Radar, key: "trust.s5" },
+  { icon: Headphones, key: "trust.s6" },
+  { icon: Globe2, key: "trust.s7" },
 ];
 
-type Stat = { value: number; suffix: string; label: string };
+type Stat = { value: number; suffix: string; key: string };
 
 const STATS: Stat[] = [
-  { value: 10000, suffix: "+", label: "MMR Boosted" },
-  { value: 500, suffix: "+", label: "Completed Orders" },
-  { value: 95, suffix: "%+", label: "Satisfaction Rate" },
+  { value: 10000, suffix: "+", key: "trust.stat1" },
+  { value: 500, suffix: "+", key: "trust.stat2" },
+  { value: 95, suffix: "%+", key: "trust.stat3" },
 ];
 
 export function GlobalTrust() {
+  const t = useT();
   return (
     <section className="relative overflow-hidden border-y border-white/[0.06] bg-ink-800/30 py-16 sm:py-24">
       <div className="pointer-events-none absolute left-1/2 top-0 h-64 w-[40rem] max-w-full -translate-x-1/2 rounded-full bg-gold/[0.05] blur-[130px]" />
@@ -39,7 +41,7 @@ export function GlobalTrust() {
         {/* Premium trust strip */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
           {STRIP.map((item, i) => (
-            <Reveal key={item.label} delay={i}>
+            <Reveal key={item.key} delay={i}>
               <motion.div
                 whileHover={{ y: -4 }}
                 transition={{ type: "spring", stiffness: 300, damping: 22 }}
@@ -49,7 +51,7 @@ export function GlobalTrust() {
                   <item.icon className="size-5" />
                 </span>
                 <span className="text-sm font-medium text-foreground/90">
-                  {item.label}
+                  {t(item.key)}
                 </span>
               </motion.div>
             </Reveal>
@@ -59,22 +61,14 @@ export function GlobalTrust() {
         {/* Supporting text */}
         <Reveal delay={1}>
           <p className="mx-auto mt-12 max-w-3xl text-center text-base leading-relaxed text-muted-foreground sm:text-lg">
-            From{" "}
-            <span className="text-foreground">SEA grinders</span> to{" "}
-            <span className="text-foreground">EU, NA, and beyond</span> — RankUpPH
-            helps players across{" "}
-            <span className="text-foreground">all major Dota 2 regions</span> reach
-            their goals faster through professional{" "}
-            <span className="text-foreground">boosting</span> and{" "}
-            <span className="text-foreground">calibration</span> services.{" "}
-            <span className="text-gold">Competitive pricing. Global coverage.</span>
+            {t("trust.para")}
           </p>
         </Reveal>
 
         {/* Statistics */}
         <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-3">
           {STATS.map((stat, i) => (
-            <Reveal key={stat.label} delay={i}>
+            <Reveal key={stat.key} delay={i}>
               <motion.div
                 whileHover={{ y: -5 }}
                 transition={{ type: "spring", stiffness: 300, damping: 22 }}
@@ -85,7 +79,7 @@ export function GlobalTrust() {
                   <Counter to={stat.value} suffix={stat.suffix} />
                 </div>
                 <div className="relative mt-2 text-sm text-muted-foreground">
-                  {stat.label}
+                  {t(stat.key)}
                 </div>
               </motion.div>
             </Reveal>

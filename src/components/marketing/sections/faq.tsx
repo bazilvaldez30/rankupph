@@ -1,5 +1,6 @@
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/shared/reveal";
+import { T } from "@/components/i18n/t";
 import { CinematicBackdrop } from "@/components/cinematic/cinematic-backdrop";
 import {
   Accordion,
@@ -41,22 +42,29 @@ export function FAQSection() {
       <CinematicBackdrop image="/ancient-ruines.png" opacity={0.07} glow="bottom" />
       <div className="container relative">
         <SectionHeading
-          eyebrow="FAQ"
+          eyebrow={<T k="sec.faq.eyebrow" />}
           title={
             <>
-              Questions, <span className="gold-text">answered.</span>
+              <T k="sec.faq.lead" />{" "}
+              <span className="gold-text">
+                <T k="sec.faq.accent" />
+              </span>
             </>
           }
-          description="Everything you need to know before you climb. Still curious? Our support team is one message away."
+          description={<T k="sec.faq.desc" />}
         />
 
         <Reveal className="mx-auto mt-12 max-w-3xl">
           <div className="glass rounded-3xl px-6 sm:px-8">
             <Accordion type="single" collapsible className="w-full">
-              {FAQ_ITEMS.map((item, i) => (
+              {FAQ_ITEMS.map((_, i) => (
                 <AccordionItem key={i} value={`item-${i}`}>
-                  <AccordionTrigger>{item.q}</AccordionTrigger>
-                  <AccordionContent>{item.a}</AccordionContent>
+                  <AccordionTrigger>
+                    <T k={`faq.q${i + 1}`} />
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <T k={`faq.a${i + 1}`} />
+                  </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>

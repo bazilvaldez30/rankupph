@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { Reveal } from "@/components/shared/reveal";
 import { Button } from "@/components/ui/button";
+import { T } from "@/components/i18n/t";
 import { CinematicBackdrop } from "@/components/cinematic/cinematic-backdrop";
 
 export function FinalCTA() {
@@ -17,30 +18,29 @@ export function FinalCTA() {
             <div className="relative mx-auto max-w-2xl">
               <span className="inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/[0.06] px-4 py-1.5 text-xs font-medium text-gold">
                 <ShieldCheck className="size-3.5" />
-                Risk-free · Satisfaction guaranteed
+                <T k="final.badge" />
               </span>
 
               <h2 className="mt-6 font-display text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl">
-                Your next rank is
+                <T k="final.lead" />
                 <br />
-                <span className="gold-text">closer than you think.</span>
+                <span className="gold-text">
+                  <T k="final.accent" />
+                </span>
               </h2>
 
               <p className="mx-auto mt-5 max-w-xl text-base text-muted-foreground sm:text-lg">
-                Join competitive players worldwide who climbed with RankUpPH.
-                Premium Dota 2 services across all major regions — get an instant
-                quote and start today.
+                <T k="final.desc" />
               </p>
 
               <p className="mt-3 text-sm text-gold">
-                Competitive Pricing. Global Coverage. · Secure Payments via Stripe
-                and GCash.
+                <T k="final.note" />
               </p>
 
               <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Button asChild size="xl" className="w-full sm:w-auto">
                   <Link href="/pricing-calculator">
-                    Get Your Instant Quote
+                    <T k="final.cta" />
                     <ArrowRight className="size-4" />
                   </Link>
                 </Button>
@@ -50,7 +50,9 @@ export function FinalCTA() {
                   size="xl"
                   className="w-full sm:w-auto"
                 >
-                  <Link href="/services">Browse Services</Link>
+                  <Link href="/services">
+                    <T k="final.browse" />
+                  </Link>
                 </Button>
               </div>
             </div>

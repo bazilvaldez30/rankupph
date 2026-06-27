@@ -5,9 +5,11 @@ import Link from "next/link";
 import { ArrowRight, Gift } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FIRST_ORDER, firstOrderActive } from "@/lib/promo";
+import { useT } from "@/hooks/use-translation";
 
 /** Sticky bottom CTA shown on mobile after the user scrolls past the hero. */
 export function MobileStickyCTA() {
+  const t = useT();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -30,7 +32,7 @@ export function MobileStickyCTA() {
       )}
       <Button asChild size="lg" className="w-full">
         <Link href="/pricing-calculator">
-          Calculate Your Boost
+          {t("cta.calculate")}
           <ArrowRight className="size-4" />
         </Link>
       </Button>

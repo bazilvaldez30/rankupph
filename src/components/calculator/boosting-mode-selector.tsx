@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Check, Shield, Users } from "lucide-react";
 import type { PublicModifier } from "@/lib/fallback-data";
+import { useT } from "@/hooks/use-translation";
 import { cn } from "@/lib/utils";
 
 interface BoostingModeSelectorProps {
@@ -16,6 +17,7 @@ export function BoostingModeSelector({
   isDuo,
   onChange,
 }: BoostingModeSelectorProps) {
+  const t = useT();
   if (!duoModifier) return null;
   const pct = Math.round((duoModifier.value / 10000 - 1) * 100);
 
@@ -23,15 +25,15 @@ export function BoostingModeSelector({
     {
       duo: false,
       icon: Shield,
-      title: "Solo Boost",
-      desc: "A pro plays on your account until you hit your goal.",
-      tag: "Base price",
+      title: t("mode.solo"),
+      desc: t("mode.soloLong"),
+      tag: t("mode.soloDesc"),
     },
     {
       duo: true,
       icon: Users,
-      title: "Duo Queue",
-      desc: "Play alongside your booster — 100% safe, you keep playing.",
+      title: t("mode.duo"),
+      desc: t("mode.duoLong"),
       tag: `+${pct}%`,
     },
   ];
@@ -39,7 +41,7 @@ export function BoostingModeSelector({
   return (
     <div className="space-y-2.5">
       <p className="text-xs uppercase tracking-wider text-muted-foreground">
-        Boosting Mode
+        {t("mode.label")}
       </p>
       <div className="grid grid-cols-2 gap-3">
         {modes.map((m) => {

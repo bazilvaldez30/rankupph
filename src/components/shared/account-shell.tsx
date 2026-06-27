@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Logo } from "@/components/shared/logo";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import { NotificationBell } from "@/components/shared/notification-bell";
-import { CurrencySelector } from "@/components/currency/currency-selector";
+import { RegionSelector } from "@/components/i18n/region-modal";
 import { Badge } from "@/components/ui/badge";
 
 interface AccountShellProps {
@@ -33,7 +33,7 @@ export function AccountShell({
               </span>
             )}
             <div className="hidden sm:block">
-              <CurrencySelector />
+              <RegionSelector />
             </div>
             <NotificationBell />
             <Link

@@ -3,6 +3,7 @@
 import { ArrowDown } from "lucide-react";
 import type { PublicModifier, PublicRank, PublicService } from "@/lib/fallback-data";
 import { useCalculatorStore } from "@/stores/calculator-store";
+import { useT } from "@/hooks/use-translation";
 import { MmrSlider } from "./mmr-slider";
 import { OptionSelect } from "./option-select";
 import { QuantityStepper } from "./quantity-stepper";
@@ -23,6 +24,7 @@ export function ServiceConfigurator({
   ranks,
   modifiers,
 }: ServiceConfiguratorProps) {
+  const t = useT();
   const {
     currentMmr,
     targetMmr,
@@ -59,7 +61,7 @@ export function ServiceConfigurator({
     service.category === "CALIBRATION" ||
     service.category === "RANKED_WINS";
   const currentLabel =
-    service.category === "CALIBRATION" ? "Current Medal (MMR)" : "Current MMR";
+    service.category === "CALIBRATION" ? t("calc.currentMedal") : t("calc.currentMmr");
 
   return (
     <div className="space-y-6">
@@ -81,7 +83,7 @@ export function ServiceConfigurator({
                 </span>
               </div>
               <MmrSlider
-                label="Target MMR"
+                label={t("calc.targetMmr")}
                 value={targetMmr}
                 min={mmrMin}
                 max={mmrMax}
