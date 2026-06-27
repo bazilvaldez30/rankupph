@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Globe, X } from "lucide-react";
 import { LOCALES, type Locale } from "@/lib/i18n";
@@ -57,8 +58,12 @@ export function RegionSelector({
   const { currency, setCurrency } = useCurrencyStore();
 
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [draftLocale, setDraftLocale] = useState<Locale>(locale);
   const [draftCurrency, setDraftCurrency] = useState<CurrencyCode>(currency);
+
+  // Portal target only exists on the client.
+  useEffect(() => setMounted(true), []);
 
   function launch() {
     setDraftLocale(locale);
@@ -92,14 +97,16 @@ export function RegionSelector({
         <ChevronDown className="size-3.5 opacity-60" />
       </button>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className="fixed inset-0 z-[60] flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {open && (
+              <motion.div
+                className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
             <div
               className="absolute inset-0 bg-ink-900/70 backdrop-blur-sm"
               onClick={() => setOpen(false)}
@@ -167,9 +174,11 @@ export function RegionSelector({
                 <Button onClick={save}>{t("common.save")}</Button>
               </div>
             </motion.div>
-          </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body,
         )}
-      </AnimatePresence>
     </>
   );
 }
